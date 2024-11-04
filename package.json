@@ -9,15 +9,15 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/mehul-m-prajapati/github-tracker.git"
+    "url": "git+https://github.com/mehul-m-prajapati/github_tracker.git"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/mehul-m-prajapati/github-tracker/issues"
+    "url": "https://github.com/mehul-m-prajapati/github_tracker/issues"
   },
-  "homepage": "https://github.com/mehul-m-prajapati/github-tracker#readme",
+  "homepage": "https://github.com/mehul-m-prajapati/github_tracker#readme",
   "dependencies": {
     "body-parser": "^1.20.3",
     "express": "^4.21.1",
