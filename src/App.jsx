@@ -2,15 +2,20 @@
 import React from 'react';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
+import { Routes, Route, Navigate, useLocation } from "react-router-dom";
+import Home from "./pages/Home/Home";
 
 function App() {
+
   return (
     <div className="flex flex-col min-h-screen bg-gray-50">
       {/* Navbar */}
       <Navbar />
 
-      {/* Home Page Content */}
+      {/* Main content */}
       <main className="flex-grow">
+
+        {/* Home Page Content (this can stay on the landing page or dashboard, if necessary) */}
         <section id="home" className="bg-blue-100 py-32 px-4 md:px-10">
           <div className="text-center">
             <h1 className="text-4xl md:text-5xl font-bold text-blue-700">

@@ -28,14 +28,14 @@ GitHub Tracker is a platform for tracking user activity on GitHub, allowing you 
 
 GitHub Tracker is built using a modern tech stack for optimal performance and user experience:
 
-- **Frontend**: React.js
+- **Frontend**: React.js + Vite
 - **Styling**: TailwindCSS
 - **Data Fetching**: Axios + React Query
 - **Backend**: Node.js + Express
 
 ---
 
-## 🚀 Getting Started
+## 🚀 Setup Guide
 
 To set up and run **GitHub Tracker** locally, follow these steps:
 
@@ -54,7 +54,7 @@ $ cd github-tracker
 3. Run the app
 ```bash
 $ npm i
-$ node app.js
+$ npm run dev
 ```
 
 ### 🌟 Coming Soon
