@@ -14,7 +14,7 @@ function App() {
         <section id="home" className="bg-blue-100 py-32 px-4 md:px-10">
           <div className="text-center">
             <h1 className="text-4xl md:text-5xl font-bold text-blue-700">
-              Welcome to My App
+              Welcome to GitHub Tracker
             </h1>
             <p className="mt-6 text-lg md:text-xl text-gray-700 max-w-3xl mx-auto">
               This is the home page. Start building your app with React and

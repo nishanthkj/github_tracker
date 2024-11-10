@@ -7,7 +7,7 @@ function Navbar() {
       <div className="container mx-auto px-6 py-4 flex justify-between items-center">
         {/* Brand Name */}
         <div className="text-2xl font-bold hover:text-gray-300 cursor-pointer">
-          My App
+            GitHub Tracker
         </div>
 
         {/* Links/Buttons */}
