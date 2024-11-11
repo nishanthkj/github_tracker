@@ -26,6 +26,8 @@ const Home = () => {
       }
 
       const data = await response.json();
+
+      console.log(data);
       setUserData(data); // Set the fetched data to state
     } catch (err) {
       setError(err.message); // Set error message if API call fails
