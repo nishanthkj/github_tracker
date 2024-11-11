@@ -116,7 +116,7 @@ const Home = () => {
           className="flex flex-col sm:flex-row justify-center items-center w-full sm:w-2/3 lg:w-1/2 h-1/3 space-y-6 sm:space-y-0"
           onSubmit={handleSubmit}
         >
-          <div className="flex flex-col sm:flex-row items-center bg-white rounded-full shadow-lg p-3 w-full sm:w-4/5"> {/* Wider search box */}
+          <div className="flex flex-col sm:flex-row items-center bg-white rounded-full shadow-lg p-3 w-full sm:w-4/5">
             {/* GitHub Logo inside search bar */}
             <div className="px-3">
               <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-gray-600" viewBox="0 0 24 24" fill="currentColor">
