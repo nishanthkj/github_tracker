@@ -1,19 +1,46 @@
 'use client';
 import { useState, useEffect, useRef } from "react";
-import Typewriter from "typewriter-effect";
-
-const handleSubmit = async (e) => {
-  e.preventDefault();
-};
-
-const handleUser = async (e) => {};
 
 const Home = () => {
-  const [username, setUserName] = useState("");
+  const [username, setUserName] = useState("");  // Track username input
+  const [userData, setUserData] = useState(null);  // Store user profile data
+  const [loading, setLoading] = useState(false);  // Loading state
+  const [error, setError] = useState(null);  // Error state
   const inputRef = useRef(null);
 
+  // Handle form submit
+  const handleSubmit = async (e) => {
+    e.preventDefault(); // Prevent page reload
+
+    if (!username) return; // If no username, do nothing
+
+    setLoading(true); // Set loading to true
+    setError(null); // Reset any previous errors
+
+    try {
+      // Fetch user data from GitHub API
+      const response = await fetch(`https://api.github.com/users/${username}`);
+
+      if (!response.ok) {
+        throw new Error('User not found');
+      }
+
+      const data = await response.json();
+      setUserData(data); // Set the fetched data to state
+    } catch (err) {
+      setError(err.message); // Set error message if API call fails
+    } finally {
+      setLoading(false); // Set loading to false after request
+    }
+  };
+
+  // Handle username input change
+  const handleUser = (e) => {
+    setUserName(e.target.value);  // Update the username state
+  };
+
   return (
-    <div className="flex flex-col justify-between min-h-screen bg-gradient-to-br from-purple-50 via-gray-200 to-gray-300">
+    <div className="flex flex-col justify-between min-h-screen bg-gradient-to-br from-purple-100 via-gray-200 to-gray-300">
       {/* Main Content */}
       <main className="flex flex-col justify-center items-center flex-grow px-8 sm:px-4 py-16">
 
@@ -23,7 +50,6 @@ const Home = () => {
           onSubmit={handleSubmit}
         >
           <div className="flex items-center bg-white rounded-full shadow-lg p-3 w-full sm:w-3/4">
-
             {/* GitHub Logo inside search bar */}
             <div className="px-3">
               <svg
@@ -36,7 +62,7 @@ const Home = () => {
               </svg>
             </div>
 
-            {/* Search Input Gitub username */}
+            {/* Search Input GitHub username */}
             <input
               type="text"
               placeholder="Enter GitHub username"
@@ -44,13 +70,13 @@ const Home = () => {
               value={username}
               onChange={handleUser}
               ref={inputRef}
-              onFocus={() => setShowRecents(true)}
             />
 
             {/* Submit Button */}
             <button
               type="submit"
               className="bg-purple-500 text-white p-3 rounded-full hover:bg-purple-600 transition duration-300 ease-in-out focus:outline-none focus:ring-4 focus:ring-purple-500 focus:ring-opacity-50 flex items-center justify-center ml-4"
+              disabled={loading} // Disable button when loading
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -65,6 +91,33 @@ const Home = () => {
             </button>
           </div>
         </form>
+
+        {/* Display user data */}
+        {loading && <p className="mt-4 text-gray-600">Loading...</p>}
+
+        {error && <p className="mt-4 text-red-600">{error}</p>}
+
+        {userData && (
+          <div className="mt-8 text-center">
+            <h2 className="text-2xl font-semibold">User Profile</h2>
+            <img
+              src={userData.avatar_url}
+              alt="User Avatar"
+              className="w-24 h-24 rounded-full mx-auto mt-4"
+            />
+            <p className="mt-2 text-lg font-bold">{userData.name}</p>
+            <p className="text-sm text-gray-500">{userData.login}</p>
+            <p className="mt-2 text-gray-700">{userData.bio}</p>
+            <a
+              href={userData.html_url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="mt-4 text-purple-600 hover:underline"
+            >
+              Visit Profile
+            </a>
+          </div>
+        )}
       </main>
     </div>
   );
