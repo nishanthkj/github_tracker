@@ -159,6 +159,33 @@ const Home = () => {
           </button>
         </form>
 
+        {/* Display user data */}
+        {loading && <p className="mt-4 text-gray-600">Loading...</p>}
+
+        {error && <p className="mt-4 text-red-600">{error}</p>}
+
+        {userData && (
+          <div className="mt-8 text-center">
+            <h2 className="text-2xl font-semibold">User Profile</h2>
+            <img
+              src={userData.avatar_url}
+              alt="User Avatar"
+              className="w-24 h-24 rounded-full mx-auto mt-4"
+            />
+            <p className="mt-2 text-lg font-bold">{userData.name}</p>
+            <p className="text-sm text-gray-500">{userData.login}</p>
+            <p className="mt-2 text-gray-700">{userData.bio}</p>
+            <a
+              href={userData.html_url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="mt-4 text-purple-600 hover:underline"
+            >
+              Visit Profile
+            </a>
+          </div>
+        )}
+
         {/* Display filters */}
         <div className="mt-8 space-y-4">
           <div className="flex space-x-4">
@@ -204,33 +231,6 @@ const Home = () => {
             </div>
           </div>
         </div>
-
-        {/* Display user data */}
-        {loading && <p className="mt-4 text-gray-600">Loading...</p>}
-
-        {error && <p className="mt-4 text-red-600">{error}</p>}
-
-        {userData && (
-          <div className="mt-8 text-center">
-            <h2 className="text-2xl font-semibold">User Profile</h2>
-            <img
-              src={userData.avatar_url}
-              alt="User Avatar"
-              className="w-24 h-24 rounded-full mx-auto mt-4"
-            />
-            <p className="mt-2 text-lg font-bold">{userData.name}</p>
-            <p className="text-sm text-gray-500">{userData.login}</p>
-            <p className="mt-2 text-gray-700">{userData.bio}</p>
-            <a
-              href={userData.html_url}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="mt-4 text-purple-600 hover:underline"
-            >
-              Visit Profile
-            </a>
-          </div>
-        )}
 
         {/* Display Issues */}
         {issues.length > 0 && (
