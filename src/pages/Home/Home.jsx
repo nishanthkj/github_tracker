@@ -13,7 +13,7 @@ const Home = () => {
   const inputRef = useRef(null);
 
   return (
-    <div className="flex flex-col justify-between min-h-screen bg-gradient-to-br from-purple-100 via-blue-200 to-blue-300">
+    <div className="flex flex-col justify-between min-h-screen bg-gradient-to-br from-purple-50 via-gray-200 to-gray-300">
       {/* Main Content */}
       <main className="flex flex-col justify-center items-center flex-grow px-8 sm:px-4 py-16">
 
