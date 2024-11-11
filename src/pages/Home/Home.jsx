@@ -4,36 +4,96 @@ import { useState, useEffect, useRef } from "react";
 const Home = () => {
   const [username, setUserName] = useState("");  // Track username input
   const [userData, setUserData] = useState(null);  // Store user profile data
+  const [issues, setIssues] = useState([]);  // Store issues data
+  const [pullRequests, setPullRequests] = useState([]);  // Store PR data
   const [loading, setLoading] = useState(false);  // Loading state
   const [error, setError] = useState(null);  // Error state
   const inputRef = useRef(null);
 
-  // Handle form submit
-  const handleSubmit = async (e) => {
-    e.preventDefault(); // Prevent page reload
+  // GitHub personal access token (replace with your token)
+  const token = 'test';  // Store your token here
 
+  // Fetch user data, issues, and pull requests
+  const fetchData = async () => {
     if (!username) return; // If no username, do nothing
 
     setLoading(true); // Set loading to true
     setError(null); // Reset any previous errors
+    setUserData(null);
+    setIssues([]);
+    setPullRequests([]);
 
     try {
       // Fetch user data from GitHub API
-      const response = await fetch(`https://api.github.com/users/${username}`);
+      const userResponse = await fetch(`https://api.github.com/users/${username}`, {
+        headers: {
+          'Authorization': `token ${token}`  // Include token in the request
+        }
+      });
 
-      if (!response.ok) {
-        throw new Error('User not found');
+      if (!userResponse.ok) throw new Error('User not found');
+      const userData = await userResponse.json();
+      setUserData(userData); // Set the fetched user data
+
+      // Fetch repositories from GitHub API
+      const reposResponse = await fetch(`https://api.github.com/users/${username}/repos`, {
+        headers: {
+          'Authorization': `token ${token}`  // Include token in the request
+        }
+      });
+      if (!reposResponse.ok) throw new Error('Failed to fetch repositories');
+      const reposData = await reposResponse.json();
+
+      // Fetch issues and pull requests for each repository
+      const allIssues = [];
+      const allPullRequests = [];
+
+      for (const repo of reposData) {
+        // Fetch issues for each repository
+        const issuesResponse = await fetch(`https://api.github.com/repos/${username}/${repo.name}/issues`, {
+          headers: {
+            'Authorization': `token ${token}`  // Include token in the request
+          }
+        });
+        const issuesData = await issuesResponse.json();
+
+        // Ensure issuesData is an array before spreading
+        if (Array.isArray(issuesData)) {
+          allIssues.push(...issuesData);
+        } else {
+          console.warn(`Issues data for repo ${repo.name} is not an array`, issuesData);
+        }
+
+        // Fetch pull requests for each repository
+        const pullsResponse = await fetch(`https://api.github.com/repos/${username}/${repo.name}/pulls`, {
+          headers: {
+            'Authorization': `token ${token}`  // Include token in the request
+          }
+        });
+        const pullsData = await pullsResponse.json();
+
+        // Ensure pullsData is an array before spreading
+        if (Array.isArray(pullsData)) {
+          allPullRequests.push(...pullsData);
+        } else {
+          console.warn(`Pull requests data for repo ${repo.name} is not an array`, pullsData);
+        }
       }
 
-      const data = await response.json();
+      setIssues(allIssues); // Set issues data
+      setPullRequests(allPullRequests); // Set pull requests data
 
-      console.log(data);
-      setUserData(data); // Set the fetched data to state
     } catch (err) {
       setError(err.message); // Set error message if API call fails
     } finally {
       setLoading(false); // Set loading to false after request
     }
+  };
+
+  // Handle form submit
+  const handleSubmit = (e) => {
+    e.preventDefault(); // Prevent page reload
+    fetchData(); // Fetch data when form is submitted
   };
 
   // Handle username input change
@@ -120,6 +180,53 @@ const Home = () => {
             </a>
           </div>
         )}
+
+        {/* Display issues */}
+        {issues.length > 0 && (
+          <div className="mt-8">
+            <h3 className="text-xl font-semibold">Issues</h3>
+            <ul className="space-y-4">
+              {issues.map(issue => (
+                <li key={issue.id} className="border p-4 rounded-lg shadow-sm bg-white">
+                  <p className="text-lg font-semibold">{issue.title}</p>
+                  <p className="text-gray-500">{issue.body || "No description available"}</p>
+                  <a
+                    href={issue.html_url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-purple-600 hover:underline mt-2"
+                  >
+                    View Issue
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
+
+        {/* Display pull requests */}
+        {pullRequests.length > 0 && (
+          <div className="mt-8">
+            <h3 className="text-xl font-semibold">Pull Requests</h3>
+            <ul className="space-y-4">
+              {pullRequests.map(pr => (
+                <li key={pr.id} className="border p-4 rounded-lg shadow-sm bg-white">
+                  <p className="text-lg font-semibold">{pr.title}</p>
+                  <p className="text-gray-500">{pr.body || "No description available"}</p>
+                  <a
+                    href={pr.html_url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-purple-600 hover:underline mt-2"
+                  >
+                    View PR
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
+
       </main>
     </div>
   );
