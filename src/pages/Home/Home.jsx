@@ -36,7 +36,7 @@ const Home = () => {
               </svg>
             </div>
 
-            {/* Search Input */}
+            {/* Search Input Gitub username */}
             <input
               type="text"
               placeholder="Enter GitHub username"
