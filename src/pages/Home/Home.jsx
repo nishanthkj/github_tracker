@@ -104,7 +104,7 @@ function Home() {
 
   const displayData = currentData.slice(page * rowsPerPage, (page + 1) * rowsPerPage);
 
-  return h(Container, { maxWidth: 'lg', sx: { display: 'flex', flexDirection: 'column', minHeight: '75vh', mt: 4 } }, [
+  return h(Container, { maxWidth: 'lg', sx: { display: 'flex', flexDirection: 'column', minHeight: '78vh', mt: 4 } }, [
     h(Paper, { elevation: 1, sx: { p: 2, mb: 4 } }, [
     //  h(Typography, { variant: 'h4', component: 'h1', gutterBottom: true }, ''),
       h('form', { onSubmit: handleSubmit }, [
