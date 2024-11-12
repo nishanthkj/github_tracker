@@ -19,6 +19,10 @@ import {
   Alert,
   Tabs,
   Tab,
+  Select,
+  MenuItem,
+  FormControl,
+  InputLabel,
 } from '@mui/material';
 
 function GithubDashboard() {
@@ -31,6 +35,8 @@ function GithubDashboard() {
   const [tab, setTab] = useState(0);
   const [page, setPage] = useState(0);
   const [rowsPerPage] = useState(5);
+  const [issueFilter, setIssueFilter] = useState('all');
+  const [prFilter, setPrFilter] = useState('all');
 
   const fetchData = useCallback(async () => {
     if (!username || !token) return;
@@ -79,7 +85,22 @@ function GithubDashboard() {
     return new Date(dateString).toLocaleDateString();
   };
 
-  const currentData = tab === 0 ? issues : prs;
+  const filterData = (data, filterType) => {
+    switch (filterType) {
+      case 'open':
+        return data.filter(item => item.state === 'open');
+      case 'closed':
+        return data.filter(item => item.state === 'closed' && !item.pull_request?.merged_at);
+      case 'merged':
+        return data.filter(item => item.pull_request?.merged_at);
+      default:
+        return data;
+    }
+  };
+
+  const currentData = tab === 0 
+    ? filterData(issues, issueFilter)
+    : filterData(prs, prFilter);
   const displayData = currentData.slice(page * rowsPerPage, (page + 1) * rowsPerPage);
 
   return h(Container, { maxWidth: 'lg', sx: { py: 4 } }, [
@@ -120,13 +141,28 @@ function GithubDashboard() {
         h(CircularProgress)
       ) :
       h(Box, null, [
-        h(Tabs, {
-          value: tab,
-          onChange: (e, newValue) => setTab(newValue),
-          sx: { mb: 3 },
-        }, [
-          h(Tab, { label: `Issues (${issues.length})` }),
-          h(Tab, { label: `Pull Requests (${prs.length})` }),
+        h(Box, { sx: { display: 'flex', alignItems: 'center', gap: 2, mb: 3 } }, [
+          h(Tabs, {
+            value: tab,
+            onChange: (e, newValue) => setTab(newValue),
+            sx: { flex: 1 },
+          }, [
+            h(Tab, { label: `Issues (${filterData(issues, issueFilter).length})` }),
+            h(Tab, { label: `Pull Requests (${filterData(prs, prFilter).length})` }),
+          ]),
+          h(FormControl, { sx: { minWidth: 120 } }, [
+            h(InputLabel, null, 'Filter'),
+            h(Select, {
+              value: tab === 0 ? issueFilter : prFilter,
+              onChange: (e) => tab === 0 ? setIssueFilter(e.target.value) : setPrFilter(e.target.value),
+              label: 'Filter',
+            }, [
+              h(MenuItem, { value: 'all' }, 'All'),
+              h(MenuItem, { value: 'open' }, 'Open'),
+              h(MenuItem, { value: 'closed' }, 'Closed'),
+              ...(tab === 1 ? [h(MenuItem, { value: 'merged' }, 'Merged')] : []),
+            ]),
+          ]),
         ]),
 
         h(TableContainer, { component: Paper }, [
@@ -150,7 +186,7 @@ function GithubDashboard() {
                     }, item.title)
                   ),
                   h(TableCell, null, item.repository_url.split('/').slice(-1)[0]),
-                  h(TableCell, null, item.state),
+                  h(TableCell, null, item.pull_request?.merged_at ? 'merged' : item.state),
                   h(TableCell, null, formatDate(item.created_at)),
                 ])
               )
