@@ -1,5 +1,4 @@
 // src/components/Navbar.jsx
-import React from 'react';
 
 function Navbar() {
   return (
