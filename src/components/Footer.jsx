@@ -1,5 +1,4 @@
 // src/components/Footer.jsx
-import React from 'react';
 import { FaGithub } from 'react-icons/fa'; // Import GitHub icon from react-icons
 
 function Footer() {
