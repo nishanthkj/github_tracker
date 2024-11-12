@@ -25,6 +25,8 @@ import {
   InputLabel,
 } from '@mui/material';
 
+const ROWS_PER_PAGE = 10;
+
 function Home() {
   const [username, setUsername] = useState('');
   const [token, setToken] = useState('');
@@ -34,7 +36,7 @@ function Home() {
   const [error, setError] = useState('');
   const [tab, setTab] = useState(0);
   const [page, setPage] = useState(0);
-  const [rowsPerPage] = useState(5);
+  const [rowsPerPage] = useState(ROWS_PER_PAGE);
   const [issueFilter, setIssueFilter] = useState('all');
   const [prFilter, setPrFilter] = useState('all');
 
@@ -131,6 +133,7 @@ function Home() {
           }, 'Fetch Data'),
         ]),
       ]),
+
     ]),
 
     error && h(Alert, { severity: 'error', sx: { mb: 3 } }, error),
@@ -162,43 +165,53 @@ function Home() {
           ]),
         ]),
 
-        h(TableContainer, { component: Paper }, [
-          h(Table, null, [
-            h(TableHead, null,
-              h(TableRow, null, [
-                h(TableCell, null, 'Title'),
-                h(TableCell, null, 'Repository'),
-                h(TableCell, null, 'State'),
-                h(TableCell, null, 'Created'),
-              ])
-            ),
-            h(TableBody, null,
-              displayData.map((item) =>
-                h(TableRow, { key: item.id }, [
-                  h(TableCell, null,
-                    h(Link, {
-                      href: item.html_url,
-                      target: '_blank',
-                      rel: 'noopener noreferrer',
-                    }, item.title)
-                  ),
-                  h(TableCell, null, item.repository_url.split('/').slice(-1)[0]),
-                  h(TableCell, null, item.pull_request?.merged_at ? 'merged' : item.state),
-                  h(TableCell, null, formatDate(item.created_at)),
+        // Table with scrollable container
+        h(Box, {
+          sx: {
+            maxHeight: '400px', // Set the max height for scrollable content
+            overflowY: 'auto', // Enable vertical scrolling
+            display: 'block', // Ensure it behaves like a block-level container
+          }
+        }, [
+          h(TableContainer, { component: Paper }, [
+            h(Table, null, [
+              h(TableHead, null,
+                h(TableRow, null, [
+                  h(TableCell, { sx: { textAlign: 'left' } }, 'Title'),
+                  h(TableCell, { sx: { textAlign: 'center' } }, 'Repository'),
+                  h(TableCell, { sx: { textAlign: 'center' } }, 'State'),
+                  h(TableCell, { sx: { textAlign: 'left' } }, 'Created'),
                 ])
-              )
-            ),
+              ),
+              h(TableBody, null,
+                displayData.map((item) =>
+                  h(TableRow, { key: item.id }, [
+                    h(TableCell, { sx: { textAlign: 'left' } },
+                      h(Link, {
+                        href: item.html_url,
+                        target: '_blank',
+                        rel: 'noopener noreferrer',
+                      }, item.title)
+                    ),
+                    h(TableCell, { sx: { textAlign: 'center' } }, item.repository_url.split('/').slice(-1)[0]),
+                    h(TableCell, { sx: { textAlign: 'center' } }, item.pull_request?.merged_at ? 'merged' : item.state),
+                    h(TableCell, { sx: { textAlign: 'left' } }, formatDate(item.created_at)),
+                  ])
+                )
+              ),
+            ]),
+            h(TablePagination, {
+              component: 'div',
+              count: currentData.length,
+              page,
+              onPageChange: handleChangePage,
+              rowsPerPage,
+              rowsPerPageOptions: [5],
+            }),
           ]),
-          h(TablePagination, {
-            component: 'div',
-            count: currentData.length,
-            page,
-            onPageChange: handleChangePage,
-            rowsPerPage,
-            rowsPerPageOptions: [5],
-          }),
         ]),
       ]),
+
   ]);
 }
 
