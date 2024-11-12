@@ -25,7 +25,7 @@ import {
   InputLabel,
 } from '@mui/material';
 
-function GithubDashboard() {
+function Home() {
   const [username, setUsername] = useState('');
   const [token, setToken] = useState('');
   const [issues, setIssues] = useState([]);
@@ -98,18 +98,17 @@ function GithubDashboard() {
     }
   };
 
-  const currentData = tab === 0 
+  const currentData = tab === 0
     ? filterData(issues, issueFilter)
     : filterData(prs, prFilter);
+
   const displayData = currentData.slice(page * rowsPerPage, (page + 1) * rowsPerPage);
 
-  return h(Container, { maxWidth: 'lg', sx: { py: 4 } }, [
-    h(Paper, { elevation: 3, sx: { p: 3, mb: 4 } }, [
-      h(Typography, { variant: 'h4', component: 'h1', gutterBottom: true }, 
-        'GitHub Dashboard'
-      ),
+  return h(Container, { maxWidth: 'lg', sx: { display: 'flex', flexDirection: 'column', minHeight: '75vh', mt: 4 } }, [
+    h(Paper, { elevation: 1, sx: { p: 2, mb: 4 } }, [
+    //  h(Typography, { variant: 'h4', component: 'h1', gutterBottom: true }, ''),
       h('form', { onSubmit: handleSubmit }, [
-        h(Box, { sx: { display: 'flex', gap: 2, mb: 3 } }, [
+        h(Box, { sx: { display: 'flex', gap: 2 } }, [
           h(TextField, {
             label: 'GitHub Username',
             value: username,
@@ -136,10 +135,8 @@ function GithubDashboard() {
 
     error && h(Alert, { severity: 'error', sx: { mb: 3 } }, error),
 
-    loading ? 
-      h(Box, { display: 'flex', justifyContent: 'center', my: 4 },
-        h(CircularProgress)
-      ) :
+    loading ?
+      h(Box, { display: 'flex', justifyContent: 'center', my: 4 }, h(CircularProgress)) :
       h(Box, null, [
         h(Box, { sx: { display: 'flex', alignItems: 'center', gap: 2, mb: 3 } }, [
           h(Tabs, {
@@ -176,7 +173,7 @@ function GithubDashboard() {
               ])
             ),
             h(TableBody, null,
-              displayData.map((item) => 
+              displayData.map((item) =>
                 h(TableRow, { key: item.id }, [
                   h(TableCell, null,
                     h(Link, {
@@ -205,4 +202,4 @@ function GithubDashboard() {
   ]);
 }
 
-export default GithubDashboard;
+export default Home;
