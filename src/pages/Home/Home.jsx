@@ -49,24 +49,43 @@ function Home() {
     try {
       const octokit = new Octokit({ auth: token });
 
-      // Fetch issues
-      const issuesResponse = await octokit.request('GET /search/issues', {
+      // Helper function to fetch data with pagination
+      const fetchAll = async (url, params) => {
+        let page = 1;
+        let results = [];
+        let hasMore = true;
+
+        while (hasMore) {
+          const response = await octokit.request(url, { ...params, page });
+          results = results.concat(response.data.items);
+
+          // If fewer than 100 items are returned, we've reached the last page
+          hasMore = response.data.items.length === 100;
+          page++;
+        }
+
+        return results;
+      };
+
+      // Fetch all issues
+      const issuesResponse = await fetchAll('GET /search/issues', {
         q: `author:${username} is:issue`,
         sort: 'created',
         order: 'desc',
         per_page: 100,
       });
 
-      // Fetch PRs
-      const prsResponse = await octokit.request('GET /search/issues', {
+      // Fetch all pull requests
+      const prsResponse = await fetchAll('GET /search/issues', {
         q: `author:${username} is:pr`,
         sort: 'created',
         order: 'desc',
         per_page: 100,
       });
 
-      setIssues(issuesResponse.data.items);
-      setPrs(prsResponse.data.items);
+      setIssues(issuesResponse);
+      setPrs(prsResponse);
+
     } catch (err) {
       setError(err.message);
     } finally {
