@@ -188,8 +188,8 @@ const Home = () => {
 
         {/* Display filters */}
         <div className="mt-8 space-y-4">
-          <div className="flex space-x-4">
-            <div className="flex flex-col">
+          <div className="flex flex-col sm:flex-row sm:space-x-4 sm:space-y-0 space-y-4">
+            <div className="flex flex-col w-full sm:w-auto">
               <label htmlFor="issueStatus" className="text-sm text-gray-600">Issue Status</label>
               <select
                 id="issueStatus"
@@ -203,7 +203,7 @@ const Home = () => {
               </select>
             </div>
 
-            <div className="flex flex-col">
+            <div className="flex flex-col w-full sm:w-auto">
               <label htmlFor="prStatus" className="text-sm text-gray-600">PR Status</label>
               <select
                 id="prStatus"
@@ -218,7 +218,7 @@ const Home = () => {
               </select>
             </div>
 
-            <div className="flex flex-col">
+            <div className="flex flex-col w-full sm:w-auto">
               <label htmlFor="labels" className="text-sm text-gray-600">Labels</label>
               <input
                 id="labels"
