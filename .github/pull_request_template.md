@@ -1,13 +1,5 @@
-- [ ] Have you renamed the PR title to something meaningful?
-<!-- Examples: feat: new authentication feature | fix: resolve login bug -->
-
----
-
 ### Related Issue
-
-<!-- Replace `<issue number>` with the issue number this PR addresses -->
-
-- Issue Closes: #<issue number>
+- Closes: #<issue number>
 
 ---
 
