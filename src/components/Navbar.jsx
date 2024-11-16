@@ -1,4 +1,4 @@
-// src/components/Navbar.jsx
+import { Link } from 'react-router-dom';
 
 function Navbar() {
   return (
@@ -6,29 +6,29 @@ function Navbar() {
       <div className="container mx-auto px-6 py-4 flex justify-between items-center">
         {/* Brand Name */}
         <div className="text-2xl font-bold hover:text-gray-300 cursor-pointer">
-            GitHub Tracker
+          GitHub Tracker
         </div>
 
         {/* Links/Buttons */}
         <div className="space-x-6">
-          <a
-            href="#home"
+          <Link
+            to="/home"
             className="text-lg font-medium hover:text-gray-300 transition-all"
           >
             Home
-          </a>
-          <a
-            href="#about"
+          </Link>
+          <Link
+            to="/about"
             className="text-lg font-medium hover:text-gray-300 transition-all"
           >
             About
-          </a>
-          <a
-            href="#contact"
+          </Link>
+          <Link
+            to="/contact"
             className="text-lg font-medium hover:text-gray-300 transition-all"
           >
             Contact
-          </a>
+          </Link>
         </div>
       </div>
     </nav>
