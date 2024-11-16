@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';  // Import Link from react-router-dom
 
 function Navbar() {
   return (
@@ -6,33 +6,25 @@ function Navbar() {
       <div className="container mx-auto px-6 py-4 flex justify-between items-center">
         {/* Brand Name */}
         <div className="text-2xl font-bold hover:text-gray-300 cursor-pointer">
-<<<<<<< HEAD
-          GitHub Tracker
-=======
-          <Link to="/">GitHub Tracker</Link>
->>>>>>> da11d282ff2b82196d95284949aed1f8fa36f56a
+            GitHub Tracker
         </div>
 
         {/* Links/Buttons */}
         <div className="space-x-6">
           <Link
-<<<<<<< HEAD
-            to="/home"
-=======
-            to="/dashboard"
->>>>>>> da11d282ff2b82196d95284949aed1f8fa36f56a
+            to="/home"  // Use 'to' instead of 'href'
             className="text-lg font-medium hover:text-gray-300 transition-all"
           >
             Home
           </Link>
           <Link
-            to="/about"
+            to="/about"  // Use 'to' instead of 'href'
             className="text-lg font-medium hover:text-gray-300 transition-all"
           >
             About
           </Link>
           <Link
-            to="/contact"
+            to="/contact"  // Use 'to' instead of 'href'
             className="text-lg font-medium hover:text-gray-300 transition-all"
           >
             Contact
