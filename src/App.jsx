@@ -15,10 +15,10 @@ function App() {
       <main className="flex-grow">
         <Routes>
           {/* Redirect root (/) to the Home page */}
-          <Route path="/" element={<Navigate to="/home" replace />} />
+          <Route path="/" element={<Navigate to="/dashboard" replace />} />
 
           {/* Route for Home (Dashboard) */}
-          <Route path="/home" element={<Home />} />
+          <Route path="/dashboard" element={<Home />} />
 
           {/* Route for About */}
           <Route path="/about" element={<About />} />
