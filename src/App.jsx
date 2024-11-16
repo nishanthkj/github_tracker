@@ -14,11 +14,11 @@ function App() {
       {/* Main content */}
       <main className="flex-grow">
         <Routes>
-          {/* Redirect root (/) to the Home page */}
+          {/* Redirect from root (/) to the dashboard */}
           <Route path="/" element={<Navigate to="/dashboard" replace />} />
 
-          {/* Route for Home (Dashboard) */}
-          <Route path="/dashboard" element={<Home />} />
+          {/* Route to the Home (Dashboard) page */}
+          <Route path="/Home" element={<Home />} />
 
           {/* Route for About */}
           <Route path="/about" element={<About />} />
