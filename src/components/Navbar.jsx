@@ -36,7 +36,7 @@ function Navbar() {
 
         <div className="hidden md:flex space-x-6">
           <Link
-            to="/home"
+            to="/dashboard"
             className="text-lg font-medium hover:text-gray-300 transition-all"
           >
             Home
