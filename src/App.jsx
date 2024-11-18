@@ -2,7 +2,7 @@ import { Routes, Route, Navigate } from 'react-router-dom';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import Home from './pages/Home/Home';
-
+import Contributors from './components/Contributors';
 function App() {
   return (
     <div>
@@ -17,6 +17,7 @@ function App() {
 
           {/* Route to the Home (Dashboard) page */}
           <Route path="/dashboard" element={<Home />} />
+          <Route path="/contributors" element={<Contributors />} />
         </Routes>
       </main>
 

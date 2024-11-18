@@ -35,7 +35,7 @@ function Navbar() {
 
         <div className="hidden md:flex space-x-6">
           <a
-            href="#home"
+            href="/"
             className="text-lg font-medium hover:text-gray-300 transition-all"
           >
             Home
@@ -51,6 +51,12 @@ function Navbar() {
             className="text-lg font-medium hover:text-gray-300 transition-all"
           >
             Contact
+          </a>
+          <a
+            href="/contributors"
+            className="text-lg font-medium hover:text-gray-300 transition-all"
+          >
+            Contributors
           </a>
         </div>
       </div>
