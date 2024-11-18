@@ -4,6 +4,7 @@ import Footer from './components/Footer';  // Import Footer
 import Home from './pages/Home/Home';  // Import the Home (Dashboard) component
 import About from './pages/About/About';  // Import the About component
 import Contact from './pages/Contact/Contact';  // Import the Contact component
+import Contributors from './components/Contributors';
 
 function App() {
   return (
@@ -17,14 +18,10 @@ function App() {
           {/* Redirect from root (/) to the dashboard */}
           <Route path="/" element={<Navigate to="/dashboard" replace />} />
 
-          {/* Route to the Home (Dashboard) page */}
-          <Route path="/Home" element={<Home />} />
-
-          {/* Route for About */}
           <Route path="/about" element={<About />} />
-
-          {/* Route for Contact */}
           <Route path="/contact" element={<Contact />} />
+          <Route path="/dashboard" element={<Home />} />
+          <Route path="/contributors" element={<Contributors />} />
         </Routes>
       </main>
 
