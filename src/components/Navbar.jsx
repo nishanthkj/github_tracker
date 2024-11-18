@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import { useState } from "react";
 
 function Navbar() {
@@ -34,30 +35,30 @@ function Navbar() {
         </div>
 
         <div className="hidden md:flex space-x-6">
-          <a
-            href="/"
+          <Link
+            to="/home"
             className="text-lg font-medium hover:text-gray-300 transition-all"
           >
             Home
-          </a>
-          <a
-            href="#about"
+          </Link>
+          <Link
+            to="/about"
             className="text-lg font-medium hover:text-gray-300 transition-all"
           >
             About
-          </a>
-          <a
-            href="#contact"
+          </Link>
+          <Link
+            to="/contact"
             className="text-lg font-medium hover:text-gray-300 transition-all"
           >
             Contact
-          </a>
-          <a
-            href="/contributors"
+          </Link>
+          <Link
+            to="/contributors"
             className="text-lg font-medium hover:text-gray-300 transition-all"
           >
             Contributors
-          </a>
+          </Link>
         </div>
       </div>
 
