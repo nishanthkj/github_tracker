@@ -5,7 +5,6 @@ import {
   Box,
   TextField,
   Button,
-  Typography,
   Paper,
   Table,
   TableBody,
@@ -125,113 +124,200 @@ function Home() {
 
   const displayData = currentData.slice(page * rowsPerPage, (page + 1) * rowsPerPage);
 
-  return h(Container, { maxWidth: 'lg', sx: { display: 'flex', flexDirection: 'column', minHeight: '78vh', mt: 4 } }, [
-    h(Paper, { elevation: 1, sx: { p: 2, mb: 4 } }, [
-    //  h(Typography, { variant: 'h4', component: 'h1', gutterBottom: true }, ''),
-      h('form', { onSubmit: handleSubmit }, [
-        h(Box, { sx: { display: 'flex', gap: 2 } }, [
-          h(TextField, {
-            label: 'GitHub Username',
-            value: username,
-            onChange: (e) => setUsername(e.target.value),
-            required: true,
-            sx: { flex: 1 },
-          }),
-          h(TextField, {
-            label: 'Personal Access Token',
-            value: token,
-            onChange: (e) => setToken(e.target.value),
-            type: 'password',
-            required: true,
-            sx: { flex: 1 },
-          }),
-          h(Button, {
-            type: 'submit',
-            variant: 'contained',
-            sx: { minWidth: '120px' },
-          }, 'Fetch Data'),
+  return h(
+    Container,
+    {
+      maxWidth: "lg",
+      sx: {
+        display: "flex",
+        flexDirection: "column",
+        minHeight: "78vh",
+        mt: 4,
+      },
+    },
+    [
+      h(Paper, { elevation: 1, sx: { p: 2, mb: 4 } }, [
+        //  h(Typography, { variant: 'h4', component: 'h1', gutterBottom: true }, ''),
+        h("form", { onSubmit: handleSubmit, className: "space-y-4" }, [
+          h(
+            "div",
+            {
+              className:
+                "flex flex-col gap-4 md:flex-row md:items-center md:gap-6",
+            },
+            [
+              h("div", { className: "flex-1" }, [
+                h(TextField, {
+                  label: "GitHub Username",
+                  value: username,
+                  onChange: (e) => setUsername(e.target.value),
+                  required: true,
+                  className: "w-full",
+                }),
+              ]),
+              h("div", { className: "flex-1" }, [
+                h(TextField, {
+                  label: "Personal Access Token",
+                  value: token,
+                  onChange: (e) => setToken(e.target.value),
+                  type: "password",
+                  required: true,
+                  className: "w-full",
+                }),
+              ]),
+              h("div", {}, [
+                h(
+                  Button,
+                  {
+                    type: "submit",
+                    variant: "contained",
+                    className:
+                      "min-w-[120px] bg-blue-500 hover:bg-blue-600 text-white rounded w-full md:w-auto h-10 md:h-14",
+                  },
+                  "Fetch Data"
+                ),
+              ]),
+            ]
+          ),
         ]),
       ]),
 
-    ]),
+      error && h(Alert, { severity: "error", sx: { mb: 3 } }, error),
 
-    error && h(Alert, { severity: 'error', sx: { mb: 3 } }, error),
+      loading
+        ? h(
+            Box,
+            { display: "flex", justifyContent: "center", my: 4 },
+            h(CircularProgress)
+          )
+        : h(Box, null, [
+            h(
+              Box,
+              { sx: { display: "flex", alignItems: "center", gap: 2, mb: 3 } },
+              [
+                h(
+                  Tabs,
+                  {
+                    value: tab,
+                    onChange: (e, newValue) => setTab(newValue),
+                    sx: { flex: 1 },
+                  },
+                  [
+                    h(Tab, {
+                      label: `Issues (${
+                        filterData(issues, issueFilter).length
+                      })`,
+                    }),
+                    h(Tab, {
+                      label: `Pull Requests (${
+                        filterData(prs, prFilter).length
+                      })`,
+                    }),
+                  ]
+                ),
+                h(FormControl, { sx: { minWidth: 120 } }, [
+                  h(InputLabel, null, "Filter"),
+                  h(
+                    Select,
+                    {
+                      value: tab === 0 ? issueFilter : prFilter,
+                      onChange: (e) =>
+                        tab === 0
+                          ? setIssueFilter(e.target.value)
+                          : setPrFilter(e.target.value),
+                      label: "Filter",
+                    },
+                    [
+                      h(MenuItem, { value: "all" }, "All"),
+                      h(MenuItem, { value: "open" }, "Open"),
+                      h(MenuItem, { value: "closed" }, "Closed"),
+                      ...(tab === 1
+                        ? [h(MenuItem, { value: "merged" }, "Merged")]
+                        : []),
+                    ]
+                  ),
+                ]),
+              ]
+            ),
 
-    loading ?
-      h(Box, { display: 'flex', justifyContent: 'center', my: 4 }, h(CircularProgress)) :
-      h(Box, null, [
-        h(Box, { sx: { display: 'flex', alignItems: 'center', gap: 2, mb: 3 } }, [
-          h(Tabs, {
-            value: tab,
-            onChange: (e, newValue) => setTab(newValue),
-            sx: { flex: 1 },
-          }, [
-            h(Tab, { label: `Issues (${filterData(issues, issueFilter).length})` }),
-            h(Tab, { label: `Pull Requests (${filterData(prs, prFilter).length})` }),
-          ]),
-          h(FormControl, { sx: { minWidth: 120 } }, [
-            h(InputLabel, null, 'Filter'),
-            h(Select, {
-              value: tab === 0 ? issueFilter : prFilter,
-              onChange: (e) => tab === 0 ? setIssueFilter(e.target.value) : setPrFilter(e.target.value),
-              label: 'Filter',
-            }, [
-              h(MenuItem, { value: 'all' }, 'All'),
-              h(MenuItem, { value: 'open' }, 'Open'),
-              h(MenuItem, { value: 'closed' }, 'Closed'),
-              ...(tab === 1 ? [h(MenuItem, { value: 'merged' }, 'Merged')] : []),
-            ]),
-          ]),
-        ]),
-
-        // Table with scrollable container
-        h(Box, {
-          sx: {
-            maxHeight: '400px', // Set the max height for scrollable content
-            overflowY: 'auto', // Enable vertical scrolling
-            display: 'block', // Ensure it behaves like a block-level container
-          }
-        }, [
-          h(TableContainer, { component: Paper }, [
-            h(Table, null, [
-              h(TableHead, null,
-                h(TableRow, null, [
-                  h(TableCell, { sx: { textAlign: 'left' } }, 'Title'),
-                  h(TableCell, { sx: { textAlign: 'center' } }, 'Repository'),
-                  h(TableCell, { sx: { textAlign: 'center' } }, 'State'),
-                  h(TableCell, { sx: { textAlign: 'left' } }, 'Created'),
-                ])
-              ),
-              h(TableBody, null,
-                displayData.map((item) =>
-                  h(TableRow, { key: item.id }, [
-                    h(TableCell, { sx: { textAlign: 'left' } },
-                      h(Link, {
-                        href: item.html_url,
-                        target: '_blank',
-                        rel: 'noopener noreferrer',
-                      }, item.title)
+            // Table with scrollable container
+            h(
+              Box,
+              {
+                sx: {
+                  maxHeight: "400px", // Set the max height for scrollable content
+                  overflowY: "auto", // Enable vertical scrolling
+                  display: "block", // Ensure it behaves like a block-level container
+                },
+              },
+              [
+                h(TableContainer, { component: Paper }, [
+                  h(Table, null, [
+                    h(
+                      TableHead,
+                      null,
+                      h(TableRow, null, [
+                        h(TableCell, { sx: { textAlign: "left" } }, "Title"),
+                        h(
+                          TableCell,
+                          { sx: { textAlign: "center" } },
+                          "Repository"
+                        ),
+                        h(TableCell, { sx: { textAlign: "center" } }, "State"),
+                        h(TableCell, { sx: { textAlign: "left" } }, "Created"),
+                      ])
                     ),
-                    h(TableCell, { sx: { textAlign: 'center' } }, item.repository_url.split('/').slice(-1)[0]),
-                    h(TableCell, { sx: { textAlign: 'center' } }, item.pull_request?.merged_at ? 'merged' : item.state),
-                    h(TableCell, { sx: { textAlign: 'left' } }, formatDate(item.created_at)),
-                  ])
-                )
-              ),
-            ]),
-            h(TablePagination, {
-              component: 'div',
-              count: currentData.length,
-              page,
-              onPageChange: handleChangePage,
-              rowsPerPage,
-              rowsPerPageOptions: [5],
-            }),
+                    h(
+                      TableBody,
+                      null,
+                      displayData.map((item) =>
+                        h(TableRow, { key: item.id }, [
+                          h(
+                            TableCell,
+                            { sx: { textAlign: "left" } },
+                            h(
+                              Link,
+                              {
+                                href: item.html_url,
+                                target: "_blank",
+                                rel: "noopener noreferrer",
+                              },
+                              item.title
+                            )
+                          ),
+                          h(
+                            TableCell,
+                            { sx: { textAlign: "center" } },
+                            item.repository_url.split("/").slice(-1)[0]
+                          ),
+                          h(
+                            TableCell,
+                            { sx: { textAlign: "center" } },
+                            item.pull_request?.merged_at ? "merged" : item.state
+                          ),
+                          h(
+                            TableCell,
+                            { sx: { textAlign: "left" } },
+                            formatDate(item.created_at)
+                          ),
+                        ])
+                      )
+                    ),
+                  ]),
+                  h(TablePagination, {
+                    component: "div",
+                    count: currentData.length,
+                    page,
+                    onPageChange: handleChangePage,
+                    rowsPerPage,
+                    rowsPerPageOptions: [5],
+                  }),
+                ]),
+              ]
+            ),
           ]),
-        ]),
-      ]),
-
-  ]);
+    ]
+  );
 }
 
 export default Home;
