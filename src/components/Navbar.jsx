@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';  // Import Link from react-router-dom
 import { useState } from "react";
 
 function Navbar() {
@@ -65,27 +65,27 @@ function Navbar() {
       {isOpen && (
         <div className="md:hidden">
           <div className="space-y-4 px-6 py-4">
-            <a
-              href="#home"
+            <Link
+              to="/dashboard"
               className="block text-lg font-medium hover:text-gray-300 transition-all"
               onClick={() => setIsOpen(false)}
             >
               Home
-            </a>
-            <a
-              href="#about"
+            </Link>
+            <Link
+              to="/about"
               className="block text-lg font-medium hover:text-gray-300 transition-all"
               onClick={() => setIsOpen(false)}
             >
               About
-            </a>
-            <a
-              href="#contact"
+            </Link>
+            <Link
+              to="/contact"
               className="block text-lg font-medium hover:text-gray-300 transition-all"
               onClick={() => setIsOpen(false)}
             >
               Contact
-            </a>
+            </Link>
           </div>
         </div>
       )}
