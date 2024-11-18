@@ -6,13 +6,13 @@ function Navbar() {
       <div className="container mx-auto px-6 py-4 flex justify-between items-center">
         {/* Brand Name */}
         <div className="text-2xl font-bold hover:text-gray-300 cursor-pointer">
-            GitHub Tracker
+          GitHub Tracker
         </div>
 
         {/* Links/Buttons */}
         <div className="space-x-6">
           <a
-            href="#home"
+            href="/"
             className="text-lg font-medium hover:text-gray-300 transition-all"
           >
             Home
@@ -28,6 +28,12 @@ function Navbar() {
             className="text-lg font-medium hover:text-gray-300 transition-all"
           >
             Contact
+          </a>
+          <a
+            href="/contributors"
+            className="text-lg font-medium hover:text-gray-300 transition-all"
+          >
+            Contributors
           </a>
         </div>
       </div>
