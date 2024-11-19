@@ -14,10 +14,18 @@ import {
 import { FaGithub } from "react-icons/fa"; // GitHub Icon
 import axios from "axios";
 
+interface Contributor {
+  id: number;
+  login: string;
+  avatar_url: string;
+  contributions: number;
+  html_url: string;
+}
+
 const ContributorsPage = () => {
-  const [contributors, setContributors] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const [contributors, setContributors] = useState<Contributor[]>([]);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string | null>(null);
 
   // Fetch contributors data from GitHub API
   useEffect(() => {
@@ -28,7 +36,7 @@ const ContributorsPage = () => {
         );
         setContributors(response.data);
       } catch (err) {
-        setError("Failed to fetch contributors. Please try again later.");
+        setError("Failed to fetch contributors. Please try again later."+ err);
       } finally {
         setLoading(false);
       }

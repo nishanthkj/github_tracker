@@ -1,70 +1,50 @@
-# 🌟 **GitHub Tracker** 🌟
+# React + TypeScript + Vite
 
-**Track Activity of Users on GitHub**
+This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
-Welcome to **GitHub Tracker**, a web app designed to help you monitor and analyze the activity of GitHub users. Whether you’re a developer, a project manager, or just curious, this tool simplifies tracking contributions and activity across repositories! 🚀👩‍💻
+Currently, two official plugins are available:
 
+- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
+- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
 
----
+## Expanding the ESLint configuration
 
-![github-tracker](/crl.png)
+If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
 
-## 📊 What is GitHub Tracker?
+- Configure the top-level `parserOptions` property like this:
 
-GitHub Tracker is a platform for tracking user activity on GitHub, allowing you to see contributions, repository interactions, and much more. Stay informed about your favorite projects and contributors with ease!
-
----
-
-## 🔑 Key Features
-
-1. **📅 User Activity Feed**: View a comprehensive feed of user activities across repositories.
-2. **📈 Contribution Graph**: Analyze contribution trends over time.
-3. **🔔 Notifications**: Get alerts on specific activities or changes in repositories.
-4. **🔍 Repository Insights**: Explore detailed statistics for any GitHub repository.
-
----
-
-## 🛠️ Tech Stack
-
-GitHub Tracker is built using a modern tech stack for optimal performance and user experience:
-
-- **Frontend**: React.js + Vite
-- **Styling**: TailwindCSS
-- **Data Fetching**: Axios + React Query
-- **Backend**: Node.js + Express
-
----
-
-## 🚀 Setup Guide
-
-To set up and run **GitHub Tracker** locally, follow these steps:
-
-### 🗂️ Setting Up GitHub Tracker Repository
-
-1. Clone the repository to your local machine:
-```bash
-$ git clone https://github.com/yourusername/github-tracker.git
+```js
+export default tseslint.config({
+  languageOptions: {
+    // other options...
+    parserOptions: {
+      project: ['./tsconfig.node.json', './tsconfig.app.json'],
+      tsconfigRootDir: import.meta.dirname,
+    },
+  },
+})
 ```
 
-2. Navigate to the project directory:
-```bash
-$ cd github-tracker
+- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
+- Optionally add `...tseslint.configs.stylisticTypeChecked`
+- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
+
+```js
+// eslint.config.js
+import react from 'eslint-plugin-react'
+
+export default tseslint.config({
+  // Set the react version
+  settings: { react: { version: '18.3' } },
+  plugins: {
+    // Add the react plugin
+    react,
+  },
+  rules: {
+    // other rules...
+    // Enable its recommended rules
+    ...react.configs.recommended.rules,
+    ...react.configs['jsx-runtime'].rules,
+  },
+})
 ```
-
-3. Run the app
-```bash
-$ npm i
-$ npm run dev
-```
-
-### 🌟 Coming Soon
-- Add a web page to enter github username and fetch details of that user
-- Add options to track PRs, Issues and new repos
-- Add options to track stars, followers, following
-- Add options to track engagements (e.g. comments, closing, opening and merging PRs)
-- **👥 Team Monitoring**: Track activities of your team members in one place.
-- **📊 Custom Dashboards**: Create personalized dashboards to visualize the data that matters to you.
-
-
-### References
-- [github-scraper](https://github.com/nelsonic/github-scraper)

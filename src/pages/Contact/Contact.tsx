@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
+import { FormEvent, useState } from 'react';
 
 function Contact() {
-  const [showPopup, setShowPopup] = useState(false); // State to control popup visibility
+  const [showPopup, setShowPopup] = useState<boolean>(false); // State to control popup visibility
 
   // Handle form submission
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setShowPopup(true); // Show the popup after submission
   };
@@ -54,7 +54,7 @@ function Contact() {
           <label className="block text-sm font-medium text-gray-700">Message</label>
           <textarea
             className="mt-1 p-3 w-full border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-            rows="4"
+            rows={4}
             placeholder="Your Message"
             required
           ></textarea>
