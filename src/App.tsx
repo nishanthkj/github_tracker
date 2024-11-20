@@ -6,18 +6,20 @@ import Router from "./Routes/Router";
 
 function App() {
   return (
-    
+
       <div>
         {/* Navbar */}
-        <Navbar /> {/* No modification required to Navbar */}
+        <Navbar />
+
         {/* Main content */}
         <main className="flex-grow">
           <Router/>
         </main>
+
         {/* Footer */}
         <Footer />
       </div>
-    
+
   );
 }
 
