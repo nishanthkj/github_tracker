@@ -7,7 +7,7 @@ Welcome to **GitHub Tracker**, a web app designed to help you monitor and analyz
 
 ---
 
-![github-tracker](/crl.png)
+![github-tracker](public/crl.png)
 
 ## 📊 What is GitHub Tracker?
 
