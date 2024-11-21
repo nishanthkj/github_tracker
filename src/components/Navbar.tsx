@@ -14,27 +14,27 @@ const Navbar: React.FC = () => {
 
         {/* Desktop Links */}
         <div className="hidden md:flex space-x-6">
-          <Link 
+          <Link
             to="/dashboard"
-            className="text-lg font-medium hover:text-gray-300 transition-all px-2 py-1 hover:border hover:border-gray-400 rounded"
+            className="text-lg font-medium hover:text-gray-300 transition-all px-2 py-1 border border-transparent hover:border-gray-400 rounded"
           >
             Home
           </Link>
           <Link
             to="/about"
-            className="text-lg font-medium hover:text-gray-300 transition-all px-2 py-1 hover:border hover:border-gray-400 rounded"
+            className="text-lg font-medium hover:text-gray-300 transition-all px-2 py-1 border border-transparent hover:border-gray-400 rounded"
           >
             About
           </Link>
           <Link
             to="/contact"
-            className="text-lg font-medium hover:text-gray-300 transition-all px-2 py-1 hover:border hover:border-gray-400 rounded"
+            className="text-lg font-medium hover:text-gray-300 transition-all px-2 py-1 border border-transparent hover:border-gray-400 rounded"
           >
             Contact
           </Link>
           <Link
             to="/contributors"
-            className="text-lg font-medium hover:text-gray-300 transition-all px-2 py-1 hover:border hover:border-gray-400 rounded"
+            className="text-lg font-medium hover:text-gray-300 transition-all px-2 py-1 border border-transparent hover:border-gray-400 rounded"
           >
             Contributors
           </Link>
@@ -47,13 +47,19 @@ const Navbar: React.FC = () => {
             className="relative w-8 h-8 flex flex-col space-y-[5px] items-center group focus:outline-none"
           >
             <span
-              className={`block h-[3px] w-full bg-white rounded-lg transition-transform duration-300 ${isOpen ? "rotate-45 translate-y-2" : ""}`}
+              className={`block h-[3px] w-full bg-white rounded-lg transition-transform duration-300 ${
+                isOpen ? "rotate-45 translate-y-2" : ""
+              }`}
             ></span>
             <span
-              className={`block h-[3px] w-full bg-white rounded-lg transition-opacity duration-300 ${isOpen ? "opacity-0" : ""}`}
+              className={`block h-[3px] w-full bg-white rounded-lg transition-opacity duration-300 ${
+                isOpen ? "opacity-0" : ""
+              }`}
             ></span>
             <span
-              className={`block h-[3px] w-full bg-white rounded-lg transition-transform duration-300 ${isOpen ? "-rotate-45 -translate-y-2" : ""}`}
+              className={`block h-[3px] w-full bg-white rounded-lg transition-transform duration-300 ${
+                isOpen ? "-rotate-45 -translate-y-2" : ""
+              }`}
             ></span>
           </button>
         </div>
@@ -65,28 +71,28 @@ const Navbar: React.FC = () => {
           <div className="space-y-4 px-6 py-4">
             <Link
               to="/dashboard"
-              className="block text-lg font-medium hover:text-gray-300 transition-all px-2 py-1 hover:border hover:border-gray-400 rounded"
+              className="block text-lg font-medium hover:text-gray-300 transition-all px-2 py-1 border border-transparent hover:border-gray-400 rounded"
               onClick={() => setIsOpen(false)}
             >
               Home
             </Link>
             <Link
               to="/about"
-              className="block text-lg font-medium hover:text-gray-300 transition-all px-2 py-1 hover:border hover:border-gray-400 rounded"
+              className="block text-lg font-medium hover:text-gray-300 transition-all px-2 py-1 border border-transparent hover:border-gray-400 rounded"
               onClick={() => setIsOpen(false)}
             >
               About
             </Link>
             <Link
               to="/contact"
-              className="block text-lg font-medium hover:text-gray-300 transition-all px-2 py-1 hover:border hover:border-gray-400 rounded"
+              className="block text-lg font-medium hover:text-gray-300 transition-all px-2 py-1 border border-transparent hover:border-gray-400 rounded"
               onClick={() => setIsOpen(false)}
             >
               Contact
             </Link>
             <Link
               to="/contributors"
-              className="block text-lg font-medium hover:text-gray-300 transition-all px-2 py-1 hover:border hover:border-gray-400 rounded"
+              className="block text-lg font-medium hover:text-gray-300 transition-all px-2 py-1 border border-transparent hover:border-gray-400 rounded"
               onClick={() => setIsOpen(false)}
             >
               Contributors
