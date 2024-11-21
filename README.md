@@ -19,8 +19,7 @@ GitHub Tracker is a platform for tracking user activity on GitHub, allowing you 
 
 1. **📅 User Activity Feed**: View a comprehensive feed of user activities across repositories.
 2. **📈 Contribution Graph**: Analyze contribution trends over time.
-3. **🔔 Notifications**: Get alerts on specific activities or changes in repositories.
-4. **🔍 Repository Insights**: Explore detailed statistics for any GitHub repository.
+3. **🔍 Repository Insights**: Explore detailed statistics for any GitHub repository.
 
 ---
 
@@ -29,7 +28,7 @@ GitHub Tracker is a platform for tracking user activity on GitHub, allowing you 
 GitHub Tracker is built using a modern tech stack for optimal performance and user experience:
 
 - **Frontend**: React.js + Vite
-- **Styling**: TailwindCSS
+- **Styling**: TailwindCSS + Material UI
 - **Data Fetching**: Axios + React Query
 - **Backend**: Node.js + Express
 
@@ -51,15 +50,19 @@ $ git clone https://github.com/yourusername/github-tracker.git
 $ cd github-tracker
 ```
 
-3. Run the app
+3. Run the frontend
 ```bash
 $ npm i
 $ npm run dev
 ```
 
+4. Run the backend
+```bash
+$ npm i
+$ npm start
+```
+
 ### 🌟 Coming Soon
-- Add a web page to enter github username and fetch details of that user
-- Add options to track PRs, Issues and new repos
 - Add options to track stars, followers, following
 - Add options to track engagements (e.g. comments, closing, opening and merging PRs)
 - **👥 Team Monitoring**: Track activities of your team members in one place.
