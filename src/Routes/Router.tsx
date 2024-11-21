@@ -4,7 +4,7 @@ import { Navigate, Route, Routes } from "react-router-dom";
 import Home from "../pages/Home/Home"; // Import the Home (Dashboard) component
 import About from "../pages/About/About"; // Import the About component
 import Contact from "../pages/Contact/Contact"; // Import the Contact component
-import Contributors from "../components/Contributors";
+import Contributors from "../pages/Contributors/Contributors";
 
 const Router = () => {
   return (
