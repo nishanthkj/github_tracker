@@ -21,7 +21,6 @@ body:
     attributes:
       label: "🎤 Screenshot"
       description: "Add screenshot if applicable."
-      placeholder: "In my use-case, ...
   - type: textarea
     id: alternative
     validations:
