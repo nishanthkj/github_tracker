@@ -5,7 +5,7 @@ const Navbar: React.FC = () => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
 
   return (
-    <nav className="bg-gradient-to-r from-black to-blue-600 text-white shadow-lg">
+    <nav className="bg-gray-800 text-white shadow-lg">
       <div className="container mx-auto px-6 py-4 flex justify-between items-center">
         {/* Logo Section */}
         <div className="text-2xl font-bold hover:text-gray-300 cursor-pointer">
@@ -67,7 +67,7 @@ const Navbar: React.FC = () => {
 
       {/* Mobile Links */}
       {isOpen && (
-        <div className="md:hidden bg-black">
+        <div className="md:hidden bg-gray-800">
           <div className="space-y-4 px-6 py-4">
             <Link
               to="/dashboard"

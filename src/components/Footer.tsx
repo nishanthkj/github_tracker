@@ -1,58 +1,29 @@
-import { FaGithub, FaLinkedin, FaInstagram, FaYoutube } from 'react-icons/fa';
+import { FaGithub } from 'react-icons/fa'; // Import GitHub icon from react-icons
 
-const Footer: React.FC = () => {
+function Footer() {
   return (
-    <footer className="bg-gradient-to-r from-black to-blue-800 text-white py-2 mt-4 shadow-lg">
-      <div className="container mx-auto px-6 text-center">
-        {/* Social Media Links */}
-        <div className="flex justify-center space-x-6 mb-4">
-          <a href="https://github.com/mehul-m-prajapati" target="_blank" rel="noreferrer">
-            <FaGithub className="text-2xl hover:text-gray-400 transition" />
-          </a>
-          <a href="https://linkedin.com" target="_blank" rel="noreferrer">
-            <FaLinkedin className="text-2xl hover:text-gray-400 transition" />
-          </a>
-          <a href="https://instagram.com" target="_blank" rel="noreferrer">
-            <FaInstagram className="text-2xl hover:text-gray-400 transition" />
-          </a>
-        </div>
-
-        {/* Credit Section */}
-        <p className="text-sm md:text-base font-medium">
-          Made with ❤️ by{" "}
-          <a
-            href="https://github.com/mehul-m-prajapati"
-            target="_blank"
-            rel="noreferrer"
-            className="font-semibold hover:text-gray-400 transition"
-          >
-            Mehul
-          </a>{" "}
-          |{" "}
+    <footer className="bg-gradient-to-r from-purple-800 via-pink-800 to-red-800 text-white py-2 mt-4 shadow-lg">
+      <div className="container mx-auto text-center">
+        <p className="text-sm md:text-base font-medium flex justify-center items-center space-x-2">
+          <span>Made with ❤️ by <span className="font-semibold"><a href="https://github.com/mehul-m-prajapati"
+            target="_blank">Mehul</a></span></span>
+          <span>|</span>
           <a
             href="https://github.com/mehul-m-prajapati/github_tracker"
             target="_blank"
-            rel="noreferrer"
-            className="inline-flex items-center hover:text-gray-400 transition"
+            rel="noreferrer noopener"
+            className="inline-flex items-center text-white-400 hover:text-gray-600 transition duration-300 ease-in-out"
           >
-            <FaGithub className="h-5 w-5 mr-1" />
+            <FaGithub className="h-5 w-5 mr-2" /> {/* Using FaGithub icon */}
             GitHub Tracker
           </a>
         </p>
-
-        {/* Additional Info */}
-        <p className="text-sm mt-4">
-          <a
-            href="/terms"
-            className="text-red-500 hover:underline transition"
-          >
-            Terms of Use
-          </a>{" "}
-          | &copy; 2024 GitHub Tracker. All rights reserved.
+        <p className="text-sm md:text-base font-light mt-2">
+          &copy; 2024 <span className="font-semibold">GitHub Tracker</span>. All rights reserved.
         </p>
       </div>
     </footer>
   );
-};
+}
 
 export default Footer;
