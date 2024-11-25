@@ -1,4 +1,3 @@
-import React from "react";
 import { Navigate, Route, Routes } from "react-router-dom";
 
 import Home from "../pages/Home/Home"; // Import the Home (Dashboard) component
@@ -10,10 +9,10 @@ const Router = () => {
   return (
     <Routes>
       {/* Redirect from root (/) to the dashboard */}
-      <Route path="/" element={<Navigate to="/dashboard" replace />} />
+      <Route path="/" element={<Navigate to="/home" replace />} />
       <Route path="/about" element={<About />} />
       <Route path="/contact" element={<Contact />} />
-      <Route path="/dashboard" element={<Home />} />
+      <Route path="/home" element={<Home />} />
       <Route path="/contributors" element={<Contributors />} />
     </Routes>
   );

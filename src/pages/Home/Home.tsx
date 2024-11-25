@@ -168,7 +168,7 @@ const Home: React.FC = () => {
       </Paper>
 
       {/* Filters Section */}
-      <Box sx={{ mt: 3, display: "flex", flexWrap: "wrap", gap: 2 }}>
+      <Box sx={{ mb: 2, display: "flex", flexWrap: "wrap", gap: 2 }}>
         <TextField
           label="Search Title"
           value={searchTitle}
