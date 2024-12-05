@@ -8,7 +8,8 @@ const Navbar: React.FC = () => {
     <nav className="bg-gray-800 text-white shadow-lg">
       <div className="container mx-auto px-6 py-4 flex justify-between items-center">
         {/* Logo Section */}
-        <div className="text-2xl font-bold hover:text-gray-300 cursor-pointer">
+        <div className="text-2xl font-bold hover:text-gray-300 cursor-pointer flex items-center">
+          <img src="/crl-icon.png" alt="CRL Icon" className="h-8 mr-2" />
           GitHub Tracker
         </div>
 
