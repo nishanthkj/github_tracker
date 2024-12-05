@@ -39,6 +39,10 @@ const Navbar: React.FC = () => {
           >
             Contributors
           </Link>
+          <Link
+            to="/login"
+            className="text-lg font-medium hover:text-gray-300 transition-all px-2 py-1 border border-transparent hover:border-gray-400 rounded"
+          >Login</Link>
         </div>
 
         {/* Mobile Menu Button */}
