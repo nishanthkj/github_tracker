@@ -2,6 +2,7 @@ import React, { useState, ChangeEvent, FormEvent } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom"; // Import the hook for navigation
 
+const backendUrl = import.meta.env.VITE_BACKEND_URL;
 interface LoginFormData {
   email: string;
   password: string;
@@ -21,8 +22,7 @@ const Login: React.FC = () => {
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     try {
-      const response = await axios.post(
-        "http://localhost:5000/api/auth/login", // Backend endpoint
+      const response = await axios.post(`${backendUrl}/api/auth/login`,
         formData,
         
       );

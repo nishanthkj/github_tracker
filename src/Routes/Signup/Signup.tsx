@@ -2,6 +2,7 @@ import React, { useState, ChangeEvent, FormEvent } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
+const backendUrl = import.meta.env.VITE_BACKEND_URL;
 interface SignUpFormData {
   username: string;
   email: string;
@@ -23,7 +24,7 @@ const SignUp: React.FC = () => {
     e.preventDefault();
     try {
       const response = await axios.post(
-        "http://localhost:5000/api/auth/signup", // Backend endpoint
+        `${backendUrl}/api/auth/signup`,
         formData // Include cookies for session
       );
       setMessage(response.data.message); // Show success message from backend
