@@ -29,10 +29,3 @@ body:
       label: "🔄️ Additional Information"
       description: "A clear and concise description of any alternative solutions or additional solutions you've considered."
       placeholder: "I tried, ..."
-  - type: checkboxes
-    id: no-duplicate-issues
-    attributes:
-      label: "👀 Have you spent some time to check if this feature request has been raised before?"
-      options:
-        - label: "I checked and didn't find similar issue"
-          required: true
