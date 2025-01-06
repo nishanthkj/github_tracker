@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 const session = require('express-session');
 const passport = require('passport');
 const bodyParser = require('body-parser');
+const cors = require('cors');
 require('dotenv').config();
 
 // Passport configuration
@@ -11,6 +12,10 @@ require('./config/passportConfig');
 const app = express();
 
 // Middleware
+app.use(cors({
+    origin: process.env.CORS_ORIGIN,
+    credentials: true
+}));
 app.use(bodyParser.json());
 
 app.use(session({

@@ -17,7 +17,11 @@ passport.use(
                     return done(null, false, { message: 'Invalid password' });
                 }
 
-                return done(null, user);
+                return done(null, {
+                    id : user._id.toString(),
+                    username: user.username,
+                    email: user.email
+                });
             } catch (err) {
                 return done(err);
             }
