@@ -32,7 +32,9 @@ const ContributorsPage = () => {
     const fetchContributors = async () => {
       try {
         const response = await axios.get(
-          "https://api.github.com/repos/mehul-m-prajapati/github_tracker/contributors"
+          "https://api.github.com/repos/mehul-m-prajapati/github_tracker/contributors", {
+            withCredentials : false
+          }
         );
         setContributors(response.data);
       } catch (err) {
