@@ -1,0 +1,37 @@
+services:
+  frontend:  # Defines the frontend service
+    image: frontend  # Names the Docker image for the frontend service
+    container_name: frontend-container  # Names the container for the frontend service
+    build:
+      context: .  # Uses the current directory as the build context
+      dockerfile: Dockerfile.dev  # Specifies the Dockerfile to use for building the image
+    ports:
+      - "3000:3000"  # Maps port 3000 on the host machine to port 3000 in the container
+    env_file:
+      - .env  # Loads environment variables from the .env file
+    volumes:
+      - .:/app  # Mounts the entire project directory into the container for live code updates
+      - /app/node_modules  # Prevents node_modules inside the container from being overwritten
+    depends_on:
+      - backend  # Ensures the backend service starts before the frontend
+    networks:
+      - app-network  # Connects the frontend to a custom Docker network
+
+  backend:  # Defines the backend service
+    image: backend  # Names the Docker image for the backend service
+    container_name: backend-container  # Names the container for the backend service
+    build:
+      context: ./backend  # Uses the "backend" directory as the build context
+      dockerfile: Dockerfile.dev  # Specifies the Dockerfile to use for building the image
+    ports:
+      - "5000:5000"  # Maps port 8000 on the host machine to port 8000 in the container
+    env_file:
+      - ./backend/.env  # Loads environment variables from the .env file
+    volumes:
+      - ./backend:/app  # Mounts the backend directory into the container for live code updates
+      - /app/node_modules  # Prevents node_modules inside the container from being overwritten
+    networks:
+      - app-network  # Connects the backend to a custom Docker network
+
+networks:
+  app-network:  # Defines a shared network so that containers can communicate with each other
