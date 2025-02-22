@@ -8,7 +8,7 @@ WORKDIR /app
 COPY package.json ./
 
 # Install all dependencies using Yarn
-RUN yarn install
+RUN npm install
 
 # Copy the rest of the application files
 COPY . .
@@ -17,4 +17,4 @@ COPY . .
 EXPOSE 5000
 
 # Start the server in dev mode using Yarn
-CMD ["yarn", "dev"]
+CMD ["npm","run", "dev"]

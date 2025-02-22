@@ -8,12 +8,12 @@ WORKDIR /app
 COPY package.json .
 
 # Install production dependencies using Yarn
-RUN yarn install --production
+RUN npm install --production
 # Copy the rest of the application files
 COPY . .
 
 # Build the frontend using Yarn
-RUN yarn run build
+RUN npm run build
 
 # Stage 2: Serve the application with Nginx
 FROM nginx:alpine
