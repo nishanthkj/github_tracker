@@ -11,18 +11,6 @@ Please make sure to read and adhere to our [Code of Conduct](https://github.com/
 
 <br>
 
-## ⭐ Star the Repository
-
-Show your support by starring our repository:
-
-<p align="center">
-  <a href="https://github.com/GitMetricsLab/github_tracker">
-    <img alt="Stars" src="https://img.shields.io/github/stars/GitMetricsLab/github_tracker?style=for-the-badge&logo=github"/>
-  </a>
-</p>
-
----
-
 ## 🛠 Project Structure
 
 ```bash
@@ -52,28 +40,25 @@ github_tracker/
 
 ### 🧭 First-Time Contribution Steps
 
-1. **Star the Repository** ⭐  
-   Click the "Star" button on the top right of this page.
-
-2. **Fork the Repository** 🍴  
+1. **Fork the Repository** 🍴  
    Click "Fork" to create your own copy under your GitHub account.
 
-3. **Clone Your Fork** 📥  
+2. **Clone Your Fork** 📥  
    ```bash
    git clone https://github.com/<your-username>/github_tracker.git
    ```
 
-4. **Navigate to the Project Folder** 📁  
+3. **Navigate to the Project Folder** 📁  
    ```bash
    cd github_tracker
    ```
 
-5. **Create a New Branch** 🌿  
+4. **Create a New Branch** 🌿  
    ```bash
    git checkout -b your-feature-name
    ```
 
-6. **Make Your Changes** ✍  
+5. **Make Your Changes** ✍  
    After modifying files, stage and commit:
 
    ```bash
@@ -81,21 +66,22 @@ github_tracker/
    git commit -m "✨ Added [feature/fix]: your message"
    ```
 
-7. **Push Your Branch to GitHub** 🚀  
+6. **Push Your Branch to GitHub** 🚀  
    ```bash
    git push origin your-feature-name
    ```
 
-8. **Open a Pull Request** 🔁  
+7. **Open a Pull Request** 🔁  
    Go to the original repo and click **Compare & pull request**.
-
-9. **Celebrate!** 🎉  
-   You’ve just submitted your first contribution!
-
+   
 ---
 
 ## 🚦 Pull Request Guidelines
 
+### **Split Big Changes into Multiple Commits**
+- When making large or complex changes, break them into smaller, logical commits. 
+- Each commit should represent a single purpose or unit of change (e.g. refactoring, adding a feature, fixing a bug).
+---
 - ✅ Ensure your code builds and runs without errors.
 - 🧪 Include tests where applicable.
 - 💬 Add comments if the logic is non-trivial.
@@ -137,16 +123,8 @@ Please include:
 
 ---
 
-## 📜 Coding Standards
-
-- Follow our [Coding Standards](https://github.com/GitMetricsLab/github_tracker/CODING_STANDARDS.md) document.
-- Commit messages should be clear and use prefixes like `fix:`, `feat:`, `chore:`, `refactor:`.
-
----
-
 ## 🙌 Thank You!
 
 We’re so glad you’re here. Your time and effort are deeply appreciated. Feel free to reach out via Issues or Discussions if you need any help.
 
 **Happy Coding!** 💻🚀  
-**— GitHub Tracker Team**
