@@ -12,7 +12,7 @@ import {
   TableHead,
   TableRow,
   TablePagination,
-  Link,
+  Link as MuiLink,
   CircularProgress,
   Alert,
   Tabs,
@@ -111,6 +111,12 @@ const Home: React.FC = () => {
   const currentData =
     tab === 0 ? filterData(issues, issueFilter) : filterData(prs, prFilter);
   const displayData = paginateData(currentData);
+
+  // helper to extract "owner/repo" from repository_url
+  const getRepoName = (url: string) => {
+    const parts = url.split("/");
+    return parts.slice(-2).join("/");
+  };
 
   return (
     <Container
@@ -264,7 +270,7 @@ const Home: React.FC = () => {
                   {displayData.map((item: GitHubItem) => (
                     <TableRow key={item.id}>
                       <TableCell sx={{ textAlign: "left" }}>
-                        <Link
+                        <MuiLink
                           href={item.html_url}
                           target="_blank"
                           rel="noopener noreferrer"
@@ -272,10 +278,10 @@ const Home: React.FC = () => {
                           sx={{ color: theme.palette.primary.main }}
                         >
                           {item.title}
-                        </Link>
+                        </MuiLink>
                       </TableCell>
                       <TableCell sx={{ textAlign: "center" }}>
-                        {item.repository_url.split("/").slice(-1)[0]}
+                        {getRepoName(item.repository_url)}
                       </TableCell>
                       <TableCell sx={{ textAlign: "center" }}>
                         {item.pull_request?.merged_at ? "merged" : item.state}
@@ -293,7 +299,7 @@ const Home: React.FC = () => {
                 page={page}
                 onPageChange={handleChangePage}
                 rowsPerPage={itemsPerPage}
-                rowsPerPageOptions={[5]}
+                rowsPerPageOptions={[10, 25, 50]}
               />
             </TableContainer>
           </Box>
