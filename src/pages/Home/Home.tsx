@@ -168,78 +168,111 @@ const Home: React.FC = () => {
       </Paper>
 
       {/* Filters Section */}
-      <Box sx={{ mb: 2, display: "flex", flexWrap: "wrap", gap: 2 }}>
-        <TextField
-          label="Search Title"
-          value={searchTitle}
-          onChange={(e) => setSearchTitle(e.target.value)}
-          sx={{ minWidth: 200 }}
-        />
-        <TextField
-          label="Repository"
-          value={selectedRepo}
-          onChange={(e) => setSelectedRepo(e.target.value)}
-          sx={{ minWidth: 200 }}
-        />
-        <TextField
-          label="Start Date"
-          type="date"
-          value={startDate}
-          onChange={(e) => setStartDate(e.target.value)}
-          InputLabelProps={{ shrink: true }}
-          sx={{ minWidth: 150 }}
-        />
-        <TextField
-          label="End Date"
-          type="date"
-          value={endDate}
-          onChange={(e) => setEndDate(e.target.value)}
-          InputLabelProps={{ shrink: true }}
-          sx={{ minWidth: 150 }}
-        />
-      </Box>
+      <Box
+  sx={{
+    display: "flex",
+    flexWrap: "wrap",
+    gap: 2,
+  }}
+>
+  {/* Search Title */}
+  <TextField
+    label="Search Title"
+    value={searchTitle}
+    onChange={(e) => setSearchTitle(e.target.value)}
+    sx={{
+      flexBasis: { xs: "100%", sm: "100%", md: "48%", lg: "23%" },
+      flexGrow: 1,
+    }}
+  />
+
+  {/* Repository */}
+  <TextField
+    label="Repository"
+    value={selectedRepo}
+    onChange={(e) => setSelectedRepo(e.target.value)}
+    sx={{
+      flexBasis: { xs: "100%", sm: "100%", md: "48%", lg: "23%" },
+      flexGrow: 1,
+    }}
+  />
+
+  {/* Start Date */}
+  <TextField
+    label="Start Date"
+    type="date"
+    value={startDate}
+    onChange={(e) => setStartDate(e.target.value)}
+    InputLabelProps={{ shrink: true }}
+    sx={{
+      flexBasis: { xs: "100%", sm: "100%", md: "48%", lg: "23%" },
+      flexGrow: 1,
+    }}
+  />
+
+  {/* End Date */}
+  <TextField
+    label="End Date"
+    type="date"
+    value={endDate}
+    onChange={(e) => setEndDate(e.target.value)}
+    InputLabelProps={{ shrink: true }}
+    sx={{
+      flexBasis: { xs: "100%", sm: "100%", md: "48%", lg: "23%" },
+      flexGrow: 1,
+    }}
+  />
+</Box>
+
+
+
 
       {/* Tabs and State Dropdown */}
       <Box
-        sx={{
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center",
-          mb: 3,
-          flexWrap: "wrap",
-          gap: 2,
-        }}
-      >
-        <Tabs value={tab} onChange={(e, newValue) => setTab(newValue)} sx={{ flex: 1 }}>
-          <Tab label={`Issues (${filterData(issues, issueFilter).length})`} />
-          <Tab label={`Pull Requests (${filterData(prs, prFilter).length})`} />
-        </Tabs>
-        <FormControl sx={{ minWidth: 150 }}>
-          <InputLabel sx={{ fontSize: "14px", color: "#555" }}>State</InputLabel>
-          <Select
-            value={tab === 0 ? issueFilter : prFilter}
-            onChange={(e) =>
-              tab === 0
-                ? setIssueFilter(e.target.value as string)
-                : setPrFilter(e.target.value as string)
-            }
-            label="State"
-            sx={{
-              backgroundColor: "#fff",
-              borderRadius: "4px",
-              "& .MuiSelect-select": { padding: "10px" },
-              "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
-                borderColor: "#1976d2",
-              },
-            }}
-          >
-            <MenuItem value="all">All</MenuItem>
-            <MenuItem value="open">Open</MenuItem>
-            <MenuItem value="closed">Closed</MenuItem>
-            {tab === 1 && <MenuItem value="merged">Merged</MenuItem>}
-          </Select>
-        </FormControl>
-      </Box>
+  sx={{
+    display: "flex",
+    flexWrap: "wrap",
+    justifyContent: "space-between",
+    alignItems: "center",
+    gap: 2,
+    mb: 3,
+  }}
+>
+  <Tabs
+    value={tab}
+    onChange={(e, newValue) => setTab(newValue)}
+    variant="scrollable"
+    scrollButtons="auto"
+    sx={{ flexGrow: 1, minWidth: "200px" }}
+  >
+    <Tab label={`Issues (${filterData(issues, issueFilter).length})`} />
+    <Tab label={`Pull Requests (${filterData(prs, prFilter).length})`} />
+  </Tabs>
+
+  <FormControl sx={{ minWidth: 150 }}>
+    <InputLabel sx={{ fontSize: "14px", color: "#555" }}>State</InputLabel>
+    <Select
+      value={tab === 0 ? issueFilter : prFilter}
+      onChange={(e) =>
+        tab === 0
+          ? setIssueFilter(e.target.value as string)
+          : setPrFilter(e.target.value as string)
+      }
+      label="State"
+      sx={{
+        backgroundColor: "#fff",
+        borderRadius: "4px",
+        "& .MuiSelect-select": { padding: "10px" },
+      }}
+    >
+      <MenuItem value="all">All</MenuItem>
+      <MenuItem value="open">Open</MenuItem>
+      <MenuItem value="closed">Closed</MenuItem>
+      {tab === 1 && <MenuItem value="merged">Merged</MenuItem>}
+    </Select>
+  </FormControl>
+</Box>
+
 
       {/* Error Alert */}
       {(authError || dataError) && (
@@ -255,52 +288,47 @@ const Home: React.FC = () => {
         </Box>
       ) : (
         <Box>
-          <Box sx={{ maxHeight: "400px", overflowY: "auto", display: "block" }}>
-            <TableContainer component={Paper}>
-              <Table>
-                <TableHead>
-                  <TableRow>
-                    <TableCell sx={{ textAlign: "left" }}>Title</TableCell>
-                    <TableCell sx={{ textAlign: "center" }}>Repository</TableCell>
-                    <TableCell sx={{ textAlign: "center" }}>State</TableCell>
-                    <TableCell sx={{ textAlign: "left" }}>Created</TableCell>
-                  </TableRow>
-                </TableHead>
-                <TableBody>
-                  {displayData.map((item: GitHubItem) => (
-                    <TableRow key={item.id}>
-                      <TableCell sx={{ textAlign: "left" }}>
-                        <Link
-                          href={item.html_url}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                        >
-                          {item.title}
-                        </Link>
-                      </TableCell>
-                      <TableCell sx={{ textAlign: "center" }}>
-                        {item.repository_url.split("/").slice(-1)[0]}
-                      </TableCell>
-                      <TableCell sx={{ textAlign: "center" }}>
-                        {item.pull_request?.merged_at ? "merged" : item.state}
-                      </TableCell>
-                      <TableCell sx={{ textAlign: "left" }}>
-                        {formatDate(item.created_at)}
-                      </TableCell>
-                    </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
-              <TablePagination
-                component="div"
-                count={currentData.length}
-                page={page}
-                onPageChange={handleChangePage}
-                rowsPerPage={itemsPerPage}
-                rowsPerPageOptions={[5]}
-              />
-            </TableContainer>
-          </Box>
+          <Box sx={{ overflowX: "auto", width: "100%" }}>
+  <TableContainer component={Paper}>
+    <Table size="small">
+      <TableHead>
+        <TableRow>
+          <TableCell>Title</TableCell>
+          <TableCell align="center">Repository</TableCell>
+          <TableCell align="center">State</TableCell>
+          <TableCell>Created</TableCell>
+        </TableRow>
+      </TableHead>
+      <TableBody>
+        {displayData.map((item: GitHubItem) => (
+          <TableRow key={item.id}>
+            <TableCell>
+              <Link href={item.html_url} target="_blank" rel="noopener noreferrer">
+                {item.title}
+              </Link>
+            </TableCell>
+            <TableCell align="center">
+              {item.repository_url.split("/").slice(-1)[0]}
+            </TableCell>
+            <TableCell align="center">
+              {item.pull_request?.merged_at ? "merged" : item.state}
+            </TableCell>
+            <TableCell>{formatDate(item.created_at)}</TableCell>
+          </TableRow>
+        ))}
+      </TableBody>
+    </Table>
+    <TablePagination
+      component="div"
+      count={currentData.length}
+      page={page}
+      onPageChange={handleChangePage}
+      rowsPerPage={itemsPerPage}
+      rowsPerPageOptions={[5]}
+    />
+  </TableContainer>
+</Box>
+
         </Box>
       )}
     </Container>

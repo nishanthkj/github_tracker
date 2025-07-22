@@ -1,37 +1,46 @@
-import { FormEvent, useState } from 'react';
+import { FormEvent, useRef, useState } from 'react';
 
 function Contact() {
-  const [showPopup, setShowPopup] = useState<boolean>(false); // State to control popup visibility
+  const [showPopup, setShowPopup] = useState(false);
+  const formRef = useRef<HTMLFormElement>(null);
 
-  // Handle form submission
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setShowPopup(true); // Show the popup after submission
+    setShowPopup(true);
+
+    // Optional: Clear the form
+    if (formRef.current) {
+      formRef.current.reset();
+    }
+
+    // Optional: Auto-close popup after 4 seconds
+    setTimeout(() => {
+      setShowPopup(false);
+    }, 4000);
   };
 
-  // Handle closing the popup
   const handleClosePopup = () => {
-    setShowPopup(false); // Hide the popup
+    setShowPopup(false);
   };
 
   return (
     <div className="container mx-auto p-6 max-w-4xl">
       <h1 className="text-4xl font-semibold text-center mb-6">Contact Us</h1>
-      
+
       {/* Contact Methods */}
-      <section className="contact-methods grid grid-cols-1 sm:grid-cols-2 gap-8 mb-8">
-        <div className="contact-method bg-gray-50 p-6 rounded-lg shadow-md">
+      <section className="grid grid-cols-1 sm:grid-cols-2 gap-8 mb-8">
+        <div className="bg-gray-50 p-6 rounded-lg shadow-md">
           <strong className="text-xl">📞 Phone</strong>
           <p className="mt-2 text-gray-600">(123) 456-7890</p>
         </div>
-        <div className="contact-method bg-gray-50 p-6 rounded-lg shadow-md">
+        <div className="bg-gray-50 p-6 rounded-lg shadow-md">
           <strong className="text-xl">✉️ Email</strong>
           <p className="mt-2 text-gray-600">contact@company.com</p>
         </div>
       </section>
 
       {/* Contact Form */}
-      <form className="space-y-6" onSubmit={handleSubmit}>
+      <form className="space-y-6" onSubmit={handleSubmit} ref={formRef}>
         <div>
           <label className="block text-sm font-medium text-gray-700">Name</label>
           <input
@@ -71,10 +80,16 @@ function Contact() {
 
       {/* Popup Modal */}
       {showPopup && (
-        <div className="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-50">
+        <div
+          className="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-50 z-50"
+          role="dialog"
+          aria-modal="true"
+        >
           <div className="bg-white p-8 rounded-lg shadow-lg w-full sm:w-1/3">
             <h2 className="text-2xl font-semibold mb-4 text-center">Message Sent!</h2>
-            <p className="text-gray-600 text-center mb-6">Your message has been successfully sent. We will get back to you soon.</p>
+            <p className="text-gray-600 text-center mb-6">
+              Your message has been successfully sent. We will get back to you soon.
+            </p>
             <div className="flex justify-center">
               <button
                 onClick={handleClosePopup}
