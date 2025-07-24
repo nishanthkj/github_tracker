@@ -1,35 +1,28 @@
-name: Auto Label PR
+name: Auto Label Issues and PRs
 
-on:
-  pull_request:
-    types: [opened, reopened, edited]
+on: 
+  issues:
+    types: [opened]
+  pull_request_target:  # Correct indentation here
+    types: [opened]
 
 jobs:
-  label_pr:
+  add-labels:
     runs-on: ubuntu-latest
-    permissions:
-      pull-requests: write
+
     steps:
-      - name: Label PR
-        uses: actions/github-script@v6
-        with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          script: |
-            const pullRequest = context.payload.pull_request;
-            
-            // Add labels to the PR
-            await github.rest.issues.addLabels({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              issue_number: pullRequest.number,
-              labels: ['gssoc2025']
-            });
-            
-            const addLabel = async (label) => {
-              await github.rest.issues.addLabels({
-                owner: context.repo.owner,
-                repo: context.repo.repo,
-                issue_number: pullRequest.number,
-                labels: [label]
-              });
-            };
+    - name: Add labels to new issues
+      if: github.event_name == 'issues'
+      uses: actions-ecosystem/action-add-labels@v1
+      with:
+        github_token: ${{ secrets.PAT_TOKEN }}  # Use PAT_TOKEN for issues
+        labels: |
+          gssoc2025
+
+    - name: Add labels to new pull requests
+      if: github.event_name == 'pull_request_target'
+      uses: actions-ecosystem/action-add-labels@v1
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}  # Use GITHUB_TOKEN for PRs
+        labels: |
+          gssoc2025
