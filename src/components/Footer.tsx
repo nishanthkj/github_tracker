@@ -2,24 +2,34 @@ import { FaGithub } from 'react-icons/fa';
 
 function Footer() {
   return (
-    <footer className="bg-gradient-to-r from-purple-800 via-pink-800 to-red-800 text-white py-2 mt-4 shadow-lg">
-      <div className="container mx-auto text-center">
-        <p className="text-sm md:text-base font-medium flex justify-center items-center space-x-2">
-          <span>Made with ❤️ by <span className="font-semibold"><a href="https://github.com/mehul-m-prajapati"
-            target="_blank">Mehul</a></span></span>
-          <span>|</span>
+    <footer className="bg-gradient-to-r from-purple-800 via-pink-800 to-red-800 text-white py-4 mt-8 shadow-lg">
+      <div className="container mx-auto text-center px-4">
+        <p className="text-sm md:text-base font-medium flex flex-col sm:flex-row justify-center items-center gap-2 sm:gap-4">
+          <span>
+            Made with ❤️ by{" "}
+            <a
+              href="https://github.com/mehul-m-prajapati"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="underline hover:text-gray-300 transition-colors"
+            >
+              Mehul
+            </a>
+          </span>
+          <span className="hidden sm:inline">|</span>
           <a
             href="https://github.com/mehul-m-prajapati/github_tracker"
             target="_blank"
-            rel="noreferrer noopener"
-            className="inline-flex items-center text-white-400 hover:text-gray-600 transition duration-300 ease-in-out"
+            rel="noopener noreferrer"
+            className="inline-flex items-center hover:text-gray-300 transition-colors"
           >
-            <FaGithub className="h-5 w-5 mr-2" /> {/* Using FaGithub icon */}
+            <FaGithub className="h-5 w-5 mr-1" />
             GitHub Tracker
           </a>
         </p>
-        <p className="text-sm md:text-base font-light mt-2">
-          &copy; 2024 <span className="font-semibold">GitHub Tracker</span>. All rights reserved.
+        <p className="text-xs md:text-sm font-light mt-2">
+          &copy; {new Date().getFullYear()}{" "}
+          <span className="font-semibold">GitHub Tracker</span>. All rights reserved.
         </p>
       </div>
     </footer>

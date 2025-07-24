@@ -11,7 +11,7 @@ import {
   CircularProgress,
   Alert,
 } from "@mui/material";
-import { FaGithub } from "react-icons/fa"; // GitHub Icon
+import { FaGithub } from "react-icons/fa";
 import axios from "axios";
 
 interface Contributor {
@@ -27,18 +27,16 @@ const ContributorsPage = () => {
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
 
-  // Fetch contributors data from GitHub API
   useEffect(() => {
     const fetchContributors = async () => {
       try {
         const response = await axios.get(
-          "https://api.github.com/repos/mehul-m-prajapati/github_tracker/contributors", {
-            withCredentials : false
-          }
+          "https://api.github.com/repos/mehul-m-prajapati/github_tracker/contributors",
+          { withCredentials: false }
         );
         setContributors(response.data);
       } catch (err) {
-        setError("Failed to fetch contributors. Please try again later."+ err);
+        setError("Failed to fetch contributors. Please try again later. " + err);
       } finally {
         setLoading(false);
       }
@@ -67,51 +65,73 @@ const ContributorsPage = () => {
     <Container
       sx={{
         mt: 4,
-        backgroundColor: "#FFFFFF",
-        color: "#333333",
         minHeight: "100vh",
-        p: 4,
+        p: { xs: 2, sm: 4 },
       }}
     >
-      <Typography sx={{ pb: 2 }} variant="h4" align="center" gutterBottom>
+      <Typography
+        variant="h4"
+        align="center"
+        gutterBottom
+        sx={{
+          fontSize: { xs: "1.8rem", sm: "2.2rem" },
+          fontWeight: "bold",
+          mb: 3,
+        }}
+      >
         🤝 GitHub Contributors
       </Typography>
-      <Grid container spacing={4}>
+
+      <Grid container spacing={3}>
         {contributors.map((contributor) => (
           <Grid item xs={12} sm={6} md={4} key={contributor.id}>
             <Card
               sx={{
                 textAlign: "center",
                 p: 2,
+                borderRadius: "12px",
+                border: "1px solid #e0e0e0",
                 backgroundColor: "#F9F9F9",
-                color: "#333333",
-                borderRadius: "10px",
-                border: "1px solid #E0E0E0", // Border styling
-
-                boxShadow: "0 4px 10px rgba(0,0,0,0.1)",
                 transition: "transform 0.3s ease-in-out",
                 "&:hover": {
-                  transform: "scale(1.05)", // Zoom effect
-                  boxShadow: "0 8px 15px rgba(0,0,0,0.2)",
-                  borderColor: "#C0C0C0", // Change border color on hover
-                  outlineColor: "#B3B3B3", // Change outline color on hover
+                  transform: "scale(1.03)",
+                  boxShadow: "0 8px 15px rgba(0,0,0,0.15)",
+                  borderColor: "#ccc",
                 },
               }}
             >
               <Avatar
                 src={contributor.avatar_url}
                 alt={contributor.login}
-                sx={{ width: 100, height: 100, mx: "auto", mb: 2 }}
+                sx={{
+                  width: 80,
+                  height: 80,
+                  mx: "auto",
+                  mb: 2,
+                }}
               />
               <CardContent>
-                <Typography variant="h6" sx={{ fontWeight: "bold" }}>
+                <Typography
+                  variant="h6"
+                  sx={{
+                    fontWeight: "bold",
+                    fontSize: { xs: "1rem", sm: "1.2rem" },
+                  }}
+                >
                   {contributor.login}
                 </Typography>
-                <Typography variant="body2" color="textSecondary">
+                <Typography
+                  variant="body2"
+                  color="text.secondary"
+                  sx={{ mt: 1 }}
+                >
                   {contributor.contributions} Contributions
                 </Typography>
-                <Typography variant="body2" sx={{ mt: 2 }}>
-                  Thank you for your valuable contributions to our community!
+                <Typography
+                  variant="body2"
+                  sx={{ mt: 2, fontSize: { xs: "0.85rem", sm: "1rem" } }}
+                >
+                  Thank you for your valuable contributions!
                 </Typography>
                 <Box sx={{ mt: 2 }}>
                   <Button
@@ -120,10 +140,13 @@ const ContributorsPage = () => {
                     href={contributor.html_url}
                     target="_blank"
                     sx={{
-                      backgroundColor: "#333333",
-                      color: "#FFFFFF",
+                      backgroundColor: "#24292f",
+                      color: "#fff",
+                      fontSize: { xs: "0.75rem", sm: "0.85rem" },
+                      px: 2,
+                      py: 1,
                       "&:hover": {
-                        backgroundColor: "#555555", // Custom hover color
+                        backgroundColor: "#444",
                       },
                     }}
                   >
