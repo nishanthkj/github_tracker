@@ -50,13 +50,6 @@ const Navbar: React.FC = () => {
           >
             Login
           </Link>
-          <button
-            onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-            className="text-lg font-medium px-2 py-1 rounded border border-transparent hover:border-gray-400 transition-all"
-            title={`Switch to ${theme === "dark" ? "light" : "dark"} mode`}
-          >
-            {theme === "dark" ? "🌞 Light" : "🌙 Dark"}
-          </button>
         </div>
 
         {/* Mobile Menu Button */}
@@ -66,17 +59,17 @@ const Navbar: React.FC = () => {
             className="relative w-8 h-8 flex flex-col space-y-[5px] items-center group focus:outline-none"
           >
             <span
-              className={`block h-[3px] w-full bg-black dark:bg-white rounded-lg transition-transform duration-300 ${
+              className={`block h-[3px] w-full bg-white rounded-lg transition-transform duration-300 ${
                 isOpen ? "rotate-45 translate-y-2" : ""
               }`}
             ></span>
             <span
-              className={`block h-[3px] w-full bg-black dark:bg-white rounded-lg transition-opacity duration-300 ${
+              className={`block h-[3px] w-full bg-white rounded-lg transition-opacity duration-300 ${
                 isOpen ? "opacity-0" : ""
               }`}
             ></span>
             <span
-              className={`block h-[3px] w-full bg-black dark:bg-white rounded-lg transition-transform duration-300 ${
+              className={`block h-[3px] w-full bg-white rounded-lg transition-transform duration-300 ${
                 isOpen ? "-rotate-45 -translate-y-2" : ""
               }`}
             ></span>
@@ -115,6 +108,13 @@ const Navbar: React.FC = () => {
               onClick={() => setIsOpen(false)}
             >
               Contributors
+            </Link>
+            <Link
+              to="/login"
+              className="block text-lg font-medium hover:text-gray-300 transition-all px-2 py-1 border border-transparent hover:border-gray-400 rounded"
+              onClick={() => setIsOpen(false)}
+            >
+              Login
             </Link>
           </div>
         </div>
