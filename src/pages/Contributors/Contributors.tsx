@@ -13,6 +13,7 @@ import {
 } from "@mui/material";
 import { FaGithub } from "react-icons/fa";
 import axios from "axios";
+import { Link } from "react-router-dom"; // ✅ Added
 
 interface Contributor {
   id: number;
@@ -30,7 +31,8 @@ const ContributorsPage = () => {
   useEffect(() => {
     const fetchContributors = async () => {
       try {
-        const response = await axios.get("https://api.github.com/repos/GitMetricsLab/github_tracker/contributors",
+        const response = await axios.get(
+          "https://api.github.com/repos/GitMetricsLab/github_tracker/contributors",
           { withCredentials: false }
         );
         setContributors(response.data);
@@ -84,76 +86,83 @@ const ContributorsPage = () => {
       <Grid container spacing={3}>
         {contributors.map((contributor) => (
           <Grid item xs={12} sm={6} md={4} key={contributor.id}>
-            <Card
-              sx={{
-                textAlign: "center",
-                p: 2,
-                borderRadius: "12px",
-                border: "1px solid #e0e0e0",
-                backgroundColor: "#F9F9F9",
-                transition: "transform 0.3s ease-in-out",
-                "&:hover": {
-                  transform: "scale(1.03)",
-                  boxShadow: "0 8px 15px rgba(0,0,0,0.15)",
-                  borderColor: "#ccc",
-                },
-              }}
+            <Link
+              to={`/user/${contributor.login}`} // ✅ Add link to user profile
+              style={{ textDecoration: "none" }}
             >
-              <Avatar
-                src={contributor.avatar_url}
-                alt={contributor.login}
+              <Card
                 sx={{
-                  width: 80,
-                  height: 80,
-                  mx: "auto",
-                  mb: 2,
+                  textAlign: "center",
+                  p: 2,
+                  borderRadius: "12px",
+                  border: "1px solid #e0e0e0",
+                  backgroundColor: "#F9F9F9",
+                  transition: "transform 0.3s ease-in-out",
+                  "&:hover": {
+                    transform: "scale(1.03)",
+                    boxShadow: "0 8px 15px rgba(0,0,0,0.15)",
+                    borderColor: "#ccc",
+                  },
                 }}
-              />
-              <CardContent>
-                <Typography
-                  variant="h6"
+              >
+                <Avatar
+                  src={contributor.avatar_url}
+                  alt={contributor.login}
                   sx={{
-                    fontWeight: "bold",
-                    fontSize: { xs: "1rem", sm: "1.2rem" },
+                    width: 80,
+                    height: 80,
+                    mx: "auto",
+                    mb: 2,
                   }}
-                >
-                  {contributor.login}
-                </Typography>
-                <Typography
-                  variant="body2"
-                  color="text.secondary"
-                  sx={{ mt: 1 }}
-                >
-                  {contributor.contributions} Contributions
-                </Typography>
-                <Typography
-                  variant="body2"
-                  sx={{ mt: 2, fontSize: { xs: "0.85rem", sm: "1rem" } }}
-                >
-                  Thank you for your valuable contributions!
-                </Typography>
-                <Box sx={{ mt: 2 }}>
-                  <Button
-                    variant="contained"
-                    startIcon={<FaGithub />}
-                    href={contributor.html_url}
-                    target="_blank"
+                />
+                <CardContent>
+                  <Typography
+                    variant="h6"
                     sx={{
-                      backgroundColor: "#24292f",
-                      color: "#fff",
-                      fontSize: { xs: "0.75rem", sm: "0.85rem" },
-                      px: 2,
-                      py: 1,
-                      "&:hover": {
-                        backgroundColor: "#444",
-                      },
+                      fontWeight: "bold",
+                      fontSize: { xs: "1rem", sm: "1.2rem" },
+                      color: "#333",
                     }}
                   >
-                    GitHub Profile
-                  </Button>
-                </Box>
-              </CardContent>
-            </Card>
+                    {contributor.login}
+                  </Typography>
+                  <Typography
+                    variant="body2"
+                    color="text.secondary"
+                    sx={{ mt: 1 }}
+                  >
+                    {contributor.contributions} Contributions
+                  </Typography>
+                  <Typography
+                    variant="body2"
+                    sx={{ mt: 2, fontSize: { xs: "0.85rem", sm: "1rem" } }}
+                  >
+                    Thank you for your valuable contributions!
+                  </Typography>
+                  <Box sx={{ mt: 2 }}>
+                    <Button
+                      variant="contained"
+                      startIcon={<FaGithub />}
+                      href={contributor.html_url}
+                      target="_blank"
+                      sx={{
+                        backgroundColor: "#24292f",
+                        color: "#fff",
+                        fontSize: { xs: "0.75rem", sm: "0.85rem" },
+                        px: 2,
+                        py: 1,
+                        "&:hover": {
+                          backgroundColor: "#444",
+                        },
+                      }}
+                      onClick={(e) => e.stopPropagation()} // prevent nested Link trigger
+                    >
+                      GitHub Profile
+                    </Button>
+                  </Box>
+                </CardContent>
+              </Card>
+            </Link>
           </Grid>
         ))}
       </Grid>

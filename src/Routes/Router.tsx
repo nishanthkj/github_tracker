@@ -6,7 +6,7 @@ import Contact from "../pages/Contact/Contact"; // Import the Contact component
 import Contributors from "../pages/Contributors/Contributors";
 import Signup from "../pages/Signup/Signup.tsx";
 import Login from "../pages/Login/Login.tsx";
-
+import UserProfile from "../pages/UserProfile/UserProfile.tsx";
 
 const Router = () => {
   return (
@@ -19,6 +19,7 @@ const Router = () => {
       <Route path="/contact" element={<Contact />} />
       <Route path="/home" element={<Home />} />
       <Route path="/contributors" element={<Contributors />} />
+      <Route path="/user/:username" element={<UserProfile />} />
     </Routes>
   );
 };
