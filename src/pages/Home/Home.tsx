@@ -160,7 +160,7 @@ const Home: React.FC = () => {
               required
               sx={{ flex: 1 }}
             />
-            <Button type="submit" variant="contained" sx={{ minWidth: "120px" }}>
+            <Button type="submit" variant="contained" sx={{ minWidth: "120px",borderRadius: "8px" }}>
               Fetch Data
             </Button>
           </Box>

@@ -11,7 +11,7 @@ function Footer() {
               href="https://github.com/mehul-m-prajapati"
               target="_blank"
               rel="noopener noreferrer"
-              className="underline hover:text-gray-300 transition-colors"
+              className="hover:text-gray-300 transition-colors"
             >
               Mehul
             </a>
