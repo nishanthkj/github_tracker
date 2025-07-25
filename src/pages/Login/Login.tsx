@@ -24,7 +24,7 @@ const Login: React.FC = () => {
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
-    
+
     try {
       const response = await axios.post(`${backendUrl}/api/auth/login`, formData);
       setMessage(response.data.message);
@@ -65,7 +65,7 @@ const Login: React.FC = () => {
         {/* Login Form */}
         <div className="bg-white/10 backdrop-blur-xl rounded-3xl p-10 shadow-2xl border border-white/20">
           <h2 className="text-2xl font-bold text-white text-center mb-8">Welcome Back</h2>
-          
+
           <form onSubmit={handleSubmit} className="space-y-6">
             <div className="relative">
               <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
@@ -79,6 +79,7 @@ const Login: React.FC = () => {
                 placeholder="Enter your email"
                 value={formData.email}
                 onChange={handleChange}
+                autoComplete="username"
                 required
                 className="w-full pl-10 pr-4 py-4 bg-white/5 border border-white/10 rounded-2xl text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all duration-300 backdrop-blur-sm"
               />
@@ -93,6 +94,7 @@ const Login: React.FC = () => {
               <input
                 type="password"
                 name="password"
+                autoComplete="current-password"
                 placeholder="Enter your password"
                 value={formData.password}
                 onChange={handleChange}
@@ -123,8 +125,8 @@ const Login: React.FC = () => {
           {/* Message Display */}
           {message && (
             <div className={`mt-6 p-4 rounded-2xl text-center text-sm font-medium ${
-              message === 'Login successful' 
-                ? 'bg-green-500/20 text-green-300 border border-green-500/30' 
+              message === 'Login successful'
+                ? 'bg-green-500/20 text-green-300 border border-green-500/30'
                 : 'bg-red-500/20 text-red-300 border border-red-500/30'
             }`}>
               {message}
@@ -142,7 +144,7 @@ const Login: React.FC = () => {
         {/* Footer */}
         <div className="text-center mt-8 pb-8">
           <p className="text-slate-500 text-sm">
-            Don't have an account? 
+            Don't have an account?
             <a href="#" className="text-purple-400 hover:text-purple-300 ml-1 transition-colors duration-300">
               Sign up here
             </a>

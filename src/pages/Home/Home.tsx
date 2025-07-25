@@ -225,10 +225,8 @@ const Home: React.FC = () => {
 </Box>
 
 
-
-
-      {/* Tabs and State Dropdown */}
-      <Box
+{/* Tabs and State Dropdown */}
+<Box
   sx={{
     display: "flex",
     flexWrap: "wrap",
@@ -236,6 +234,7 @@ const Home: React.FC = () => {
     alignItems: "center",
     gap: 2,
     mb: 3,
+    mt:3
   }}
 >
   <Tabs
@@ -274,21 +273,21 @@ const Home: React.FC = () => {
 </Box>
 
 
-      {/* Error Alert */}
-      {(authError || dataError) && (
-        <Alert severity="error" sx={{ mb: 3 }}>
-          {authError || dataError}
-        </Alert>
-      )}
+{/* Error Alert */}
+{(authError || dataError) && (
+<Alert severity="error" sx={{ mb: 3 }}>
+    {authError || dataError}
+</Alert>
+)}
 
-      {/* Table Section */}
-      {loading ? (
-        <Box display="flex" justifyContent="center" my={4}>
-          <CircularProgress />
-        </Box>
-      ) : (
-        <Box>
-          <Box sx={{ overflowX: "auto", width: "100%" }}>
+{/* Table Section */}
+{loading ? (
+<Box display="flex" justifyContent="center" my={4}>
+    <CircularProgress />
+</Box>
+) : (
+<Box>
+<Box sx={{ overflowX: "auto", width: "100%" }}>
   <TableContainer component={Paper}>
     <Table size="small">
       <TableHead>
