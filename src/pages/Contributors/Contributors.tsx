@@ -30,11 +30,12 @@ const ContributorsPage = () => {
   useEffect(() => {
     const fetchContributors = async () => {
       try {
-        const response = await axios.get(
-          "https://api.github.com/repos/mehul-m-prajapati/github_tracker/contributors",
+        const response = await axios.get("https://api.github.com/repos/GitMetricsLab/github_tracker/contributors",
           { withCredentials: false }
         );
         setContributors(response.data);
+
+        console.log(response.data)
       } catch (err) {
         setError("Failed to fetch contributors. Please try again later. " + err);
       } finally {
