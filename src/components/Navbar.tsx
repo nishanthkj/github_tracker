@@ -1,10 +1,13 @@
 import { Link } from "react-router-dom";
-import { useState } from "react";
-import { useTheme } from "../hooks/useTheme";
+import { useState, useContext } from "react";
+import { ThemeContext } from "../ThemeContext";
 
 const Navbar: React.FC = () => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
-  const { theme, setTheme } = useTheme();
+  const themeContext = useContext(ThemeContext);
+  if (!themeContext) return null;
+
+  const { toggleTheme, mode } = themeContext;
 
   return (
     <nav className="bg-white text-black dark:bg-gray-800 dark:text-white shadow-lg">
@@ -50,6 +53,12 @@ const Navbar: React.FC = () => {
           >
             Login
           </Link>
+          <button
+            onClick={toggleTheme}
+            className="text-sm font-semibold px-3 py-1 rounded border border-gray-500 hover:text-gray-300 hover:border-gray-300 transition duration-200"
+          >
+            {mode === "dark" ? "🌞 Light" : "🌙 Dark"}
+          </button>
         </div>
 
         {/* Mobile Menu Button */}
@@ -116,6 +125,15 @@ const Navbar: React.FC = () => {
             >
               Login
             </Link>
+            <button
+              onClick={() => {
+                toggleTheme();
+                setIsOpen(false);
+              }}
+              className="text-sm font-semibold px-3 py-1 rounded border border-gray-500 hover:text-gray-300 hover:border-gray-300 transition duration-200 w-full text-left"
+            >
+              {mode === "dark" ? "🌞 Light" : "🌙 Dark"}
+            </button>
           </div>
         </div>
       )}

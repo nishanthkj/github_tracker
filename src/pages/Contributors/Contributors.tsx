@@ -41,12 +41,12 @@ const ContributorsPage = () => {
     const fetchContributors = async () => {
       try {
         const response = await axios.get(
-          "https://api.github.com/repos/GitMetricsLab/github_tracker/contributors",
+          "https://api.github.com/repos/mehul-m-prajapati/github_tracker/contributors",
           { withCredentials: false }
         );
         setContributors(response.data);
       } catch (err) {
-        setError("Failed to fetch contributors. Please try again later." + err);
+        setError("Failed to fetch contributors. Please try again later.");
       } finally {
         setLoading(false);
       }
@@ -55,7 +55,7 @@ const ContributorsPage = () => {
     fetchContributors();
   }, []);
 
-  // To update on theme change (optional)
+  // To trigger re-render on theme change (optional)
   useEffect(() => {
     setContributors((prev) => [...prev]);
   }, [theme]);
@@ -102,7 +102,10 @@ const ContributorsPage = () => {
       <Grid container spacing={3}>
         {contributors.map((contributor) => (
           <Grid item xs={12} sm={6} md={4} key={contributor.id}>
-            <Link to={`/user/${contributor.login}`} style={{ textDecoration: "none" }}>
+            <Link
+              to={`/user/${contributor.login}`}
+              style={{ textDecoration: "none" }}
+            >
               <Card
                 sx={{
                   textAlign: "center",
@@ -125,7 +128,10 @@ const ContributorsPage = () => {
                   sx={{ width: 100, height: 100, mx: "auto", mt: 3 }}
                 />
                 <CardContent>
-                  <Typography variant="h6" sx={{ fontWeight: "bold", color: textColor }}>
+                  <Typography
+                    variant="h6"
+                    sx={{ fontWeight: "bold", color: textColor }}
+                  >
                     {contributor.login}
                   </Typography>
                   <Typography variant="body2" sx={{ mt: 1, color: textColor }}>
