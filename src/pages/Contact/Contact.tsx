@@ -6,7 +6,7 @@ function Contact() {
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault(); // prevent form refresh
+    e.preventDefault();
     setIsSubmitting(true);
 
     // Simulate API call
@@ -164,12 +164,9 @@ function Contact() {
       {showPopup && (
         <div className="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-50 z-50">
           <div className="bg-white dark:bg-gray-800 text-black dark:text-white p-8 rounded-lg shadow-lg w-full sm:w-1/3">
-            <h2 className="text-2xl font-semibold mb-4 text-center">
-              Message Sent!
-            </h2>
+            <h2 className="text-2xl font-semibold mb-4 text-center">Message Sent!</h2>
             <p className="text-black dark:text-white text-center mb-6">
-              Your message has been successfully sent. We will get back to you
-              soon.
+              Your message has been successfully sent. We will get back to you soon.
             </p>
             <div className="flex justify-center">
               <button
