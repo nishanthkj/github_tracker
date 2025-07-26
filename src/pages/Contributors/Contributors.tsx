@@ -11,7 +11,7 @@ import {
   CircularProgress,
   Alert,
 } from "@mui/material";
-import { FaGithub } from "react-icons/fa";
+import { FaGithub } from "react-icons/fa"; // GitHub Icon
 import axios from "axios";
 import { Link } from "react-router-dom";
 import { useTheme } from "../../hooks/useTheme";
@@ -30,6 +30,7 @@ const ContributorsPage = () => {
   const [error, setError] = useState<string | null>(null);
   const { theme } = useTheme();
 
+  // Theme-based colors
   const bgColor = theme === "dark" ? "#1f1f1f" : "#FFFFFF";
   const textColor = theme === "dark" ? "#FFFFFF" : "#333333";
   const cardBg = theme === "dark" ? "#2a2a2a" : "#FFFFFF";
@@ -45,7 +46,7 @@ const ContributorsPage = () => {
         );
         setContributors(response.data);
       } catch (err) {
-        setError("Failed to fetch contributors. Please try again later. " + err);
+        setError("Failed to fetch contributors. Please try again later." + err);
       } finally {
         setLoading(false);
       }
@@ -54,6 +55,7 @@ const ContributorsPage = () => {
     fetchContributors();
   }, []);
 
+  // To update on theme change (optional)
   useEffect(() => {
     setContributors((prev) => [...prev]);
   }, [theme]);
@@ -78,7 +80,7 @@ const ContributorsPage = () => {
     <Container
       sx={{
         mt: 4,
-        bgcolor: bgColor,
+        backgroundColor: bgColor,
         color: textColor,
         minHeight: "100vh",
         p: { xs: 2, sm: 4 },
