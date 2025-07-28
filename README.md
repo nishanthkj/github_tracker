@@ -1,4 +1,5 @@
 # 🌟 **GitHub Tracker** 🌟
+<!-- top -->
 
 **Track Activity of Users on GitHub**
 
@@ -145,3 +146,13 @@ spec_files: [
     <img src="https://contrib.rocks/image?repo=mehul-m-prajapati/github_tracker&&max=1000" />
   </a>
 </div>
+
+
+
+---
+
+<p align="center">
+  <a href="#top" style="font-size: 18px; padding: 8px 16px; display: inline-block; border: 1px solid #ccc; border-radius: 6px; text-decoration: none;">
+    ⬆️ Back to Top
+  </a>
+</p>
