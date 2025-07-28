@@ -14,7 +14,7 @@ jobs:
         with:
           github-token: ${{ secrets.PAT }}
           script: |
-            const daysBeforeUnassign = 5;
+            const daysBeforeUnassign = 7;
             const cutoffDate = new Date();
             cutoffDate.setDate(cutoffDate.getDate() - daysBeforeUnassign);
 
