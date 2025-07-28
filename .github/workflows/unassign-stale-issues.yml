@@ -38,12 +38,13 @@ jobs:
 
               // Find the first assignment event date
               const assignedEvent = timeline.find(event => event.event === 'assigned');
+              const assignedEvents = timeline.filter(e => e.event === 'assigned');
+              const assignedEvent = assignedEvents.at(-1); // latest
               if (!assignedEvent) {
                 // No assignment event found, skip issue
                 continue;
               }
               const assignedAt = new Date(assignedEvent.created_at);
-
               // Find the first PR linked event date
               const prLinkedEvent = timeline.find(event => event.event === 'connected');
               const prLinkedAt = prLinkedEvent ? new Date(prLinkedEvent.created_at) : null;
