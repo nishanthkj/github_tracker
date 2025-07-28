@@ -1,4 +1,4 @@
-name: Unassign Issues with No PR After 5 Days
+name: Unassign Issues with No PR After 7 Days
 
 on:
   schedule:
@@ -45,7 +45,7 @@ jobs:
                 const hasLinkedPR = timeline.some(event => event.event === 'connected');
 
                 if (!hasLinkedPR) {
-                  console.log(`Unassigning issue #${issue.number} (no PR in 5 days)`);
+                  console.log(`Unassigning issue #${issue.number} (no PR in 7 days)`);
                   await github.rest.issues.removeAssignees({
                     owner: context.repo.owner,
                     repo: context.repo.repo,
@@ -57,7 +57,7 @@ jobs:
                     owner: context.repo.owner,
                     repo: context.repo.repo,
                     issue_number: issue.number,
-                    body: `⏰ This issue was automatically unassigned because no pull request was raised within 5 days. Feel free to reassign if you're still working on it.`
+                    body: `⏰ This issue was automatically unassigned because no pull request was raised within 5 days. Feel free to ask for re-assignment if you're still working on it.`
                   });
                 }
               }
