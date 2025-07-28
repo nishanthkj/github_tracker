@@ -45,7 +45,11 @@ jobs:
               const assignedAt = new Date(assignedEvent.created_at);
               // Find the first PR linked event date
               const prLinkedEvent = timeline
-                .filter(e => e.event === 'connected' && new Date(e.created_at) >= assignedAt)
+                .filter(
+                  e =>
+                    ['connected', 'cross-referenced'].includes(e.event) &&
+                    new Date(e.created_at) >= assignedAt
+                )
                 .at(0); // earliest link *after* assignment
               const prLinkedAt = prLinkedEvent ? new Date(prLinkedEvent.created_at) : null;
 
