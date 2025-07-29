@@ -22,7 +22,7 @@ const Navbar: React.FC = () => {
         </Link>
 
         {/* Desktop Links */}
-        <div className="hidden md:flex space-x-6 items-center">
+        <div className="hidden md:flex space-x-6">
           <Link
             to="/"
             className="text-lg font-medium hover:text-gray-300 transition-all px-2 py-1 border border-transparent hover:border-gray-400 rounded"
@@ -59,14 +59,6 @@ const Navbar: React.FC = () => {
           >
             {mode === "dark" ? "🌞 Light" : "🌙 Dark"}
           </button>
-          {/* Uncomment if Signup needed
-          <Link
-            to="/signup"
-            className="text-lg font-medium hover:text-gray-300 transition-all px-2 py-1 border border-transparent hover:border-gray-400 rounded"
-          >
-            Signup
-          </Link>
-          */}
         </div>
 
         {/* Mobile Menu Button */}
@@ -99,7 +91,7 @@ const Navbar: React.FC = () => {
         <div className="md:hidden bg-gray-800">
           <div className="space-y-4 px-6 py-4">
             <Link
-              to="/"
+              to="/home"
               className="block text-lg font-medium hover:text-gray-300 transition-all px-2 py-1 border border-transparent hover:border-gray-400 rounded"
               onClick={() => setIsOpen(false)}
             >
