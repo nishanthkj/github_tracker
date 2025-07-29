@@ -12,7 +12,7 @@ import {
   TableHead,
   TableRow,
   TablePagination,
-  Link as MuiLink,
+  Link,
   CircularProgress,
   Alert,
   Tabs,
@@ -78,7 +78,7 @@ const Home: React.FC = () => {
 
   const filterData = (data: GitHubItem[], filterType: string): GitHubItem[] => {
     let filtered = [...data];
-    if (filterType === "open" || filterType === "closed" || filterType === "merged") {
+    if (["open", "closed", "merged"].includes(filterType)) {
       filtered = filtered.filter((item) =>
         filterType === "merged"
           ? !!item.pull_request?.merged_at
@@ -111,12 +111,6 @@ const Home: React.FC = () => {
   const currentData =
     tab === 0 ? filterData(issues, issueFilter) : filterData(prs, prFilter);
   const displayData = paginateData(currentData);
-
-  // helper to extract "owner/repo" from repository_url
-  const getRepoName = (url: string) => {
-    const parts = url.split("/");
-    return parts.slice(-2).join("/");
-  };
 
   return (
     <Container
@@ -155,11 +149,7 @@ const Home: React.FC = () => {
               required
               sx={{ flex: 1 }}
             />
-            <Button
-              type="submit"
-              variant="contained"
-              sx={{ minWidth: "120px" }}
-            >
+            <Button type="submit" variant="contained" sx={{ minWidth: "120px" }}>
               Fetch Data
             </Button>
           </Box>
@@ -207,11 +197,7 @@ const Home: React.FC = () => {
           mb: 3,
         }}
       >
-        <Tabs
-          value={tab}
-          onChange={(e, newValue) => setTab(newValue)}
-          sx={{ flex: 1 }}
-        >
+        <Tabs value={tab} onChange={(e, newValue) => setTab(newValue)} sx={{ flex: 1 }}>
           <Tab label={`Issues (${filterData(issues, issueFilter).length})`} />
           <Tab label={`Pull Requests (${filterData(prs, prFilter).length})`} />
         </Tabs>
@@ -254,55 +240,53 @@ const Home: React.FC = () => {
           <CircularProgress />
         </Box>
       ) : (
-        <Box>
-          <Box sx={{ maxHeight: "400px", overflowY: "auto", display: "block" }}>
-            <TableContainer component={Paper}>
-              <Table>
-                <TableHead>
-                  <TableRow>
-                    <TableCell sx={{ textAlign: "left" }}>Title</TableCell>
-                    <TableCell sx={{ textAlign: "center" }}>Repository</TableCell>
-                    <TableCell sx={{ textAlign: "center" }}>State</TableCell>
-                    <TableCell sx={{ textAlign: "left" }}>Created</TableCell>
+        <Box sx={{ maxHeight: "400px", overflowY: "auto", display: "block" }}>
+          <TableContainer component={Paper}>
+            <Table>
+              <TableHead>
+                <TableRow>
+                  <TableCell sx={{ textAlign: "left" }}>Title</TableCell>
+                  <TableCell sx={{ textAlign: "center" }}>Repository</TableCell>
+                  <TableCell sx={{ textAlign: "center" }}>State</TableCell>
+                  <TableCell sx={{ textAlign: "left" }}>Created</TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {displayData.map((item: GitHubItem) => (
+                  <TableRow key={item.id}>
+                    <TableCell sx={{ textAlign: "left" }}>
+                      <Link
+                        href={item.html_url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        underline="hover"
+                        sx={{ color: theme.palette.primary.main }}
+                      >
+                        {item.title}
+                      </Link>
+                    </TableCell>
+                    <TableCell sx={{ textAlign: "center" }}>
+                      {item.repository_url.split("/").slice(-1)[0]}
+                    </TableCell>
+                    <TableCell sx={{ textAlign: "center" }}>
+                      {item.pull_request?.merged_at ? "merged" : item.state}
+                    </TableCell>
+                    <TableCell sx={{ textAlign: "left" }}>
+                      {formatDate(item.created_at)}
+                    </TableCell>
                   </TableRow>
-                </TableHead>
-                <TableBody>
-                  {displayData.map((item: GitHubItem) => (
-                    <TableRow key={item.id}>
-                      <TableCell sx={{ textAlign: "left" }}>
-                        <MuiLink
-                          href={item.html_url}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          underline="hover"
-                          sx={{ color: theme.palette.primary.main }}
-                        >
-                          {item.title}
-                        </MuiLink>
-                      </TableCell>
-                      <TableCell sx={{ textAlign: "center" }}>
-                        {getRepoName(item.repository_url)}
-                      </TableCell>
-                      <TableCell sx={{ textAlign: "center" }}>
-                        {item.pull_request?.merged_at ? "merged" : item.state}
-                      </TableCell>
-                      <TableCell sx={{ textAlign: "left" }}>
-                        {formatDate(item.created_at)}
-                      </TableCell>
-                    </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
-              <TablePagination
-                component="div"
-                count={currentData.length}
-                page={page}
-                onPageChange={handleChangePage}
-                rowsPerPage={itemsPerPage}
-                rowsPerPageOptions={[10, 25, 50]}
-              />
-            </TableContainer>
-          </Box>
+                ))}
+              </TableBody>
+            </Table>
+            <TablePagination
+              component="div"
+              count={currentData.length}
+              page={page}
+              onPageChange={handleChangePage}
+              rowsPerPage={itemsPerPage}
+              rowsPerPageOptions={[5]}
+            />
+          </TableContainer>
         </Box>
       )}
     </Container>

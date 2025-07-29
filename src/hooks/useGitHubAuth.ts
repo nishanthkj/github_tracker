@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import { Octokit } from '@octokit/core';
-import toast from 'react-hot-toast';
 
 export const useGitHubAuth = () => {
   const [username, setUsername] = useState('');
@@ -8,8 +7,7 @@ export const useGitHubAuth = () => {
   const [error, setError] = useState('');
 
   const getOctokit = () => {
-
-    if (!username || !token) return;
+    if (!username || !token) return null;
     return new Octokit({ auth: token });
   };
 
