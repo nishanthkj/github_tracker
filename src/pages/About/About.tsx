@@ -2,7 +2,14 @@ const About = () => {
   return (
     <div className="about-container">
       {/* Hero Section */}
-      <section className="hero bg-gray-800 text-white py-12 px-4">
+      <section
+        className="
+          hero
+          bg-white text-black
+          dark:bg-gray-800 dark:text-white
+          py-12 px-4
+        "
+      >
         <h1 className="text-4xl font-bold text-center">About Us</h1>
         <p className="text-lg text-center mt-4">
           Welcome to GitHub Tracker! We simplify issue tracking for developers.
