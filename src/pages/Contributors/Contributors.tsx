@@ -11,8 +11,11 @@ import {
   CircularProgress,
   Alert,
 } from "@mui/material";
-import { FaGithub } from "react-icons/fa"; // GitHub Icon
-import axios from "axios";
+import { FaGithub } from "react-icons/fa";
+import axios from "axios"
+import { Link } from "react-router-dom";
+
+
 interface Contributor {
   id: number;
   login: string;
@@ -20,6 +23,8 @@ interface Contributor {
   contributions: number;
   html_url: string;
 }
+
+
 const ContributorsPage = () => {
   const [contributors, setContributors] = useState<Contributor[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
@@ -66,6 +71,11 @@ const ContributorsPage = () => {
         <Grid container spacing={4}>
           {contributors.map((contributor) => (
             <Grid item xs={12} sm={6} md={4} key={contributor.id}>
+
+            <Link
+              to={`/user/${contributor.login}`}
+              style={{ textDecoration: "none" }}
+            >
               <Card
                 sx={{
                   textAlign: "center",
@@ -118,6 +128,7 @@ const ContributorsPage = () => {
                   </Box>
                 </CardContent>
               </Card>
+              </Link>
             </Grid>
           ))}
         </Grid>
