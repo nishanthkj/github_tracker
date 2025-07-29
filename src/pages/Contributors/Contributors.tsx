@@ -67,12 +67,12 @@ const ContributorsPage = () => {
     <div className="bg-white dark:bg-gray-900 text-black dark:text-white min-h-screen p-4 mt-4">
       <Container>
         <Typography sx={{ pb: 2 }} variant="h4" align="center" gutterBottom>
-          🤝 GitHub Contributors
+          🤝 Contributors
         </Typography>
 
         <Grid container spacing={4}>
           {contributors.map((contributor) => (
-            <Grid item xs={12} sm={6} md={4} key={contributor.id}>
+            <Grid item xs={12} sm={6} md={3} key={contributor.id}>
               <Link
                 to={`/user/${contributor.login}`}
                 style={{ textDecoration: "none" }}
@@ -107,11 +107,11 @@ const ContributorsPage = () => {
                     <Typography variant="body2" color="text.secondary">
                       {contributor.contributions} Contributions
                     </Typography>
-
+                    {/*
                     <Typography variant="body2" sx={{ mt: 2 }}>
                       Thank you for your valuable contributions to our
                       community!
-                    </Typography>
+                    </Typography> */}
 
                     <Box sx={{ mt: 2 }}>
                       <Button
