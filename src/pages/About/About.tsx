@@ -26,7 +26,7 @@ const About = () => {
       </section>
 
       {/* Features Section */}
-      <section className="features bg-gray-100 py-12 px-4">
+      <section className="features bg-gray-100 dark:bg-gray-800 dark:text-white py-12 px-4">
         <h2 className="text-3xl font-semibold text-center">What We Do</h2>
 
         <div className="flex flex-col md:flex-row md:justify-around gap-8 mt-8">
