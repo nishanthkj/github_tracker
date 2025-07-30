@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Container,
   Box,
@@ -25,7 +25,6 @@ import {
 import { useTheme } from "@mui/material/styles";
 import { useGitHubAuth } from "../../hooks/useGitHubAuth";
 import { useGitHubData } from "../../hooks/useGitHubData";
-import { usePagination } from "../../hooks/usePagination";
 
 const ROWS_PER_PAGE = 10;
 
@@ -53,24 +52,38 @@ const Home: React.FC = () => {
   const {
     issues,
     prs,
+    totalIssues,
+    totalPrs,
     loading,
     error: dataError,
     fetchData,
   } = useGitHubData(octokit);
-  const { page, itemsPerPage, handleChangePage, paginateData } =
-    usePagination(ROWS_PER_PAGE);
 
   const [tab, setTab] = useState(0);
-  const [issueFilter, setIssueFilter] = useState<string>("all");
-  const [prFilter, setPrFilter] = useState<string>("all");
-  const [searchTitle, setSearchTitle] = useState<string>("");
-  const [selectedRepo, setSelectedRepo] = useState<string>("");
-  const [startDate, setStartDate] = useState<string>("");
-  const [endDate, setEndDate] = useState<string>("");
+  const [page, setPage] = useState(0);
+
+  const [issueFilter, setIssueFilter] = useState("all");
+  const [prFilter, setPrFilter] = useState("all");
+  const [searchTitle, setSearchTitle] = useState("");
+  const [selectedRepo, setSelectedRepo] = useState("");
+  const [startDate, setStartDate] = useState("");
+  const [endDate, setEndDate] = useState("");
+
+  // Fetch data when username, tab, or page changes
+  useEffect(() => {
+    if (username) {
+      fetchData(username, page + 1, ROWS_PER_PAGE);
+    }
+  }, [username, tab, page, fetchData]);
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>): void => {
     e.preventDefault();
-    fetchData(username);
+    setPage(0);
+    fetchData(username, 1, ROWS_PER_PAGE);
+  };
+
+  const handlePageChange = (_: unknown, newPage: number) => {
+    setPage(newPage);
   };
 
   const formatDate = (dateString: string): string =>
@@ -81,7 +94,7 @@ const Home: React.FC = () => {
     if (["open", "closed", "merged"].includes(filterType)) {
       filtered = filtered.filter((item) =>
         filterType === "merged"
-          ? item.pull_request?.merged_at
+          ? !!item.pull_request?.merged_at
           : item.state === filterType
       );
     }
@@ -108,30 +121,18 @@ const Home: React.FC = () => {
     return filtered;
   };
 
-  const currentData =
-    tab === 0 ? filterData(issues, issueFilter) : filterData(prs, prFilter);
-  const displayData = paginateData(currentData);
+  // Current data and filtered data according to tab and filters
+  const currentRawData = tab === 0 ? issues : prs;
+  const currentFilteredData = filterData(
+    currentRawData,
+    tab === 0 ? issueFilter : prFilter
+  );
+  const totalCount = tab === 0 ? totalIssues : totalPrs;
 
   return (
-    <Container
-      maxWidth="lg"
-      sx={{
-        display: "flex",
-        flexDirection: "column",
-        minHeight: "78vh",
-        mt: 4,
-        color: theme.palette.text.primary,
-      }}
-    >
-      <Paper
-        elevation={1}
-        sx={{
-          p: 2,
-          mb: 4,
-          backgroundColor: theme.palette.background.paper,
-          color: theme.palette.text.primary,
-        }}
-      >
+    <Container maxWidth="lg" sx={{ mt: 4, minHeight: "80vh", color: theme.palette.text.primary }}>
+      {/* Auth Form */}
+      <Paper elevation={1} sx={{ p: 2, mb: 4, backgroundColor: theme.palette.background.paper }}>
         <form onSubmit={handleSubmit}>
           <Box sx={{ display: "flex", gap: 2, flexWrap: "wrap" }}>
             <TextField
@@ -139,7 +140,7 @@ const Home: React.FC = () => {
               value={username}
               onChange={(e) => setUsername(e.target.value)}
               required
-              sx={{ flex: 1 }}
+              sx={{ flex: 1, minWidth: 150 }}
             />
             <TextField
               label="Personal Access Token"
@@ -147,7 +148,7 @@ const Home: React.FC = () => {
               onChange={(e) => setToken(e.target.value)}
               type="password"
               required
-              sx={{ flex: 1 }}
+              sx={{ flex: 1, minWidth: 150 }}
             />
             <Button type="submit" variant="contained" sx={{ minWidth: "120px" }}>
               Fetch Data
@@ -156,6 +157,7 @@ const Home: React.FC = () => {
         </form>
       </Paper>
 
+      {/* Filters */}
       <Box sx={{ mb: 2, display: "flex", flexWrap: "wrap", gap: 2 }}>
         <TextField
           label="Search Title"
@@ -187,6 +189,7 @@ const Home: React.FC = () => {
         />
       </Box>
 
+      {/* Tabs + State Filter */}
       <Box
         sx={{
           display: "flex",
@@ -197,9 +200,16 @@ const Home: React.FC = () => {
           gap: 2,
         }}
       >
-        <Tabs value={tab} onChange={(e, v) => setTab(v)} sx={{ flex: 1 }}>
-          <Tab label={`Issues (${filterData(issues, issueFilter).length})`} />
-          <Tab label={`Pull Requests (${filterData(prs, prFilter).length})`} />
+        <Tabs
+          value={tab}
+          onChange={(_, v) => {
+            setTab(v);
+            setPage(0);
+          }}
+          sx={{ flex: 1 }}
+        >
+          <Tab label={`Issues (${totalIssues})`} />
+          <Tab label={`Pull Requests (${totalPrs})`} />
         </Tabs>
         <FormControl sx={{ minWidth: 150 }}>
           <InputLabel sx={{ fontSize: "14px" }}>State</InputLabel>
@@ -207,8 +217,8 @@ const Home: React.FC = () => {
             value={tab === 0 ? issueFilter : prFilter}
             onChange={(e) =>
               tab === 0
-                ? setIssueFilter(e.target.value as string)
-                : setPrFilter(e.target.value as string)
+                ? setIssueFilter(e.target.value)
+                : setPrFilter(e.target.value)
             }
             label="State"
             sx={{
@@ -240,55 +250,51 @@ const Home: React.FC = () => {
           <CircularProgress />
         </Box>
       ) : (
-        <Box>
-          <Box sx={{ maxHeight: "400px", overflowY: "auto", display: "block" }}>
-            <TableContainer component={Paper}>
-              <Table>
-                <TableHead>
-                  <TableRow>
-                    <TableCell sx={{ textAlign: "left" }}>Title</TableCell>
-                    <TableCell sx={{ textAlign: "center" }}>Repository</TableCell>
-                    <TableCell sx={{ textAlign: "center" }}>State</TableCell>
-                    <TableCell sx={{ textAlign: "left" }}>Created</TableCell>
+        <Box sx={{ maxHeight: "400px", overflowY: "auto" }}>
+          <TableContainer component={Paper}>
+            <Table size="small">
+              <TableHead>
+                <TableRow>
+                  <TableCell>Title</TableCell>
+                  <TableCell align="center">Repository</TableCell>
+                  <TableCell align="center">State</TableCell>
+                  <TableCell>Created</TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {currentFilteredData.map((item) => (
+                  <TableRow key={item.id}>
+                    <TableCell>
+                      <Link
+                        href={item.html_url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        underline="hover"
+                        sx={{ color: theme.palette.primary.main }}
+                      >
+                        {item.title}
+                      </Link>
+                    </TableCell>
+                    <TableCell align="center">
+                      {item.repository_url.split("/").slice(-1)[0]}
+                    </TableCell>
+                    <TableCell align="center">
+                      {item.pull_request?.merged_at ? "merged" : item.state}
+                    </TableCell>
+                    <TableCell>{formatDate(item.created_at)}</TableCell>
                   </TableRow>
-                </TableHead>
-                <TableBody>
-                  {displayData.map((item: GitHubItem) => (
-                    <TableRow key={item.id}>
-                      <TableCell sx={{ textAlign: "left" }}>
-                        <Link
-                          href={item.html_url}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          underline="hover"
-                          sx={{ color: theme.palette.primary.main }}
-                        >
-                          {item.title}
-                        </Link>
-                      </TableCell>
-                      <TableCell sx={{ textAlign: "center" }}>
-                        {item.repository_url.split("/").slice(-1)[0]}
-                      </TableCell>
-                      <TableCell sx={{ textAlign: "center" }}>
-                        {item.pull_request?.merged_at ? "merged" : item.state}
-                      </TableCell>
-                      <TableCell sx={{ textAlign: "left" }}>
-                        {formatDate(item.created_at)}
-                      </TableCell>
-                    </TableRow>
-                  ))}
-                               </TableBody>
-              </Table>
-              <TablePagination
-                component="div"
-                count={currentData.length}
-                page={page}
-                onPageChange={handleChangePage}
-                rowsPerPage={itemsPerPage}
-                rowsPerPageOptions={[5]}
-              />
-            </TableContainer>
-          </Box>
+                ))}
+              </TableBody>
+            </Table>
+            <TablePagination
+              component="div"
+              count={totalCount}
+              page={page}
+              onPageChange={handlePageChange}
+              rowsPerPage={ROWS_PER_PAGE}
+              rowsPerPageOptions={[ROWS_PER_PAGE]}
+            />
+          </TableContainer>
         </Box>
       )}
     </Container>

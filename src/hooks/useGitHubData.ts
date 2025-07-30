@@ -1,60 +1,63 @@
 import { useState, useCallback } from 'react';
 
-export const useGitHubData = (octokit) => {
+export const useGitHubData = (octokit: any) => {
+    
   const [issues, setIssues] = useState([]);
   const [prs, setPrs] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+  const [totalIssues, setTotalIssues] = useState(0);
+  const [totalPrs, setTotalPrs] = useState(0);
 
-  const fetchAll = async (url, params) => {
-    let page = 1;
-    let results = [];
-    let hasMore = true;
+  const fetchPaginated = async (username: string, type: string, page = 1, per_page = 10) => {
 
-    while (hasMore) {
-      const response = await octokit.request(url, { ...params, page });
-      results = results.concat(response.data.items);
-      hasMore = response.data.items.length === 100;
-      page++;
-    }
+    const q = `author:${username} is:${type}`;
+    const response = await octokit.request('GET /search/issues', {
+      q,
+      sort: 'created',
+      order: 'desc',
+      per_page,
+      page,
+    });
 
-    return results;
+    return {
+      items: response.data.items,
+      total: response.data.total_count,
+    };
   };
 
-  const fetchData = useCallback(async (username) => {
-    if (!octokit || !username) return;
+  const fetchData = useCallback(
+    async (username: string, page = 1, perPage = 10) => {
 
-    setLoading(true);
-    setError('');
+      if (!octokit || !username) return;
 
-    try {
-      const [issuesResponse, prsResponse] = await Promise.all([
-        fetchAll('GET /search/issues', {
-          q: `author:${username} is:issue`,
-          sort: 'created',
-          order: 'desc',
-          per_page: 100,
-        }),
-        fetchAll('GET /search/issues', {
-          q: `author:${username} is:pr`,
-          sort: 'created',
-          order: 'desc',
-          per_page: 100,
-        }),
-      ]);
+      setLoading(true);
+      setError('');
 
-      setIssues(issuesResponse);
-      setPrs(prsResponse);
-    } catch (err) {
-      setError(err.message);
-    } finally {
-      setLoading(false);
-    }
-  }, [octokit]);
+      try {
+        const [issueRes, prRes] = await Promise.all([
+          fetchPaginated(username, 'issue', page, perPage),
+          fetchPaginated(username, 'pr', page, perPage),
+        ]);
+
+        setIssues(issueRes.items);
+        setPrs(prRes.items);
+        setTotalIssues(issueRes.total);
+        setTotalPrs(prRes.total);
+      } catch (err: any) {
+        setError(err.message);
+      } finally {
+        setLoading(false);
+      }
+    },
+    [octokit]
+  );
 
   return {
     issues,
     prs,
+    totalIssues,
+    totalPrs,
     loading,
     error,
     fetchData,
