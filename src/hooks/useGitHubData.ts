@@ -6,20 +6,27 @@ export const useGitHubData = (octokit) => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
 
-  const fetchAll = async (url, params) => {
-    let page = 1;
-    let results = [];
-    let hasMore = true;
+  // Helper to fetch multiple pages from REST endpoint (not search API)
+const fetchPaginated = async (url, params = {}) => {
+  let page = 1;
+  const results = [];
 
-    while (hasMore) {
-      const response = await octokit.request(url, { ...params, page });
-      results = results.concat(response.data.items);
-      hasMore = response.data.items.length === 100;
-      page++;
-    }
+  while (true) {
+    const { data } = await octokit.request(url, {
+      ...params,
+      per_page: 100,
+      page,
+    });
 
-    return results;
-  };
+    const items = Array.isArray(data.items) ? data.items : [];
+    results.push(...items);  // ✅ safe spreading
+
+    if (items.length < 100) break;
+    page++;
+  }
+
+  return results;
+};
 
   const fetchData = useCallback(async (username) => {
     if (!octokit || !username) return;
@@ -28,25 +35,27 @@ export const useGitHubData = (octokit) => {
     setError('');
 
     try {
-      const [issuesResponse, prsResponse] = await Promise.all([
-        fetchAll('GET /search/issues', {
+      console.time('fetchData');
+
+      const [issuesList, prsList] = await Promise.all([
+        fetchPaginated('GET /search/issues', {
           q: `author:${username} is:issue`,
           sort: 'created',
           order: 'desc',
-          per_page: 100,
         }),
-        fetchAll('GET /search/issues', {
+        fetchPaginated('GET /search/issues', {
           q: `author:${username} is:pr`,
           sort: 'created',
           order: 'desc',
-          per_page: 100,
         }),
       ]);
 
-      setIssues(issuesResponse);
-      setPrs(prsResponse);
+      setIssues(issuesList);
+      setPrs(prsList);
+
+      console.timeEnd('fetchData');
     } catch (err) {
-      setError(err.message);
+      setError(err.message || 'Something went wrong while fetching GitHub data.');
     } finally {
       setLoading(false);
     }
