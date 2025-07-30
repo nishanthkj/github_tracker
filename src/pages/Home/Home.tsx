@@ -39,7 +39,9 @@ interface GitHubItem {
 }
 
 const Home: React.FC = () => {
+
   const theme = useTheme();
+
   const {
     username,
     setUsername,
@@ -48,7 +50,9 @@ const Home: React.FC = () => {
     error: authError,
     getOctokit,
   } = useGitHubAuth();
-  const octokit = getOctokit();
+
+ //const octokit = getOctokit();
+
   const {
     issues,
     prs,
@@ -57,7 +61,7 @@ const Home: React.FC = () => {
     loading,
     error: dataError,
     fetchData,
-  } = useGitHubData(octokit);
+  } = useGitHubData(getOctokit);
 
   const [tab, setTab] = useState(0);
   const [page, setPage] = useState(0);
@@ -74,7 +78,7 @@ const Home: React.FC = () => {
     if (username) {
       fetchData(username, page + 1, ROWS_PER_PAGE);
     }
-  }, [username, tab, page, fetchData]);
+  }, [tab, page]);
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>): void => {
     e.preventDefault();
