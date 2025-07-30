@@ -22,6 +22,7 @@ import {
   FormControl,
   InputLabel,
 } from "@mui/material";
+import { useTheme } from "@mui/material/styles";
 import { useGitHubAuth } from "../../hooks/useGitHubAuth";
 import { useGitHubData } from "../../hooks/useGitHubData";
 
@@ -38,9 +39,25 @@ interface GitHubItem {
 }
 
 const Home: React.FC = () => {
-  const { username, setUsername, token, setToken, error: authError, getOctokit } = useGitHubAuth();
+  const theme = useTheme();
+  const {
+    username,
+    setUsername,
+    token,
+    setToken,
+    error: authError,
+    getOctokit,
+  } = useGitHubAuth();
   const octokit = getOctokit();
-  const {issues, prs, totalIssues, totalPrs, loading, error: dataError, fetchData} = useGitHubData(octokit);
+  const {
+    issues,
+    prs,
+    totalIssues,
+    totalPrs,
+    loading,
+    error: dataError,
+    fetchData,
+  } = useGitHubData(octokit);
 
   const [tab, setTab] = useState(0);
   const [page, setPage] = useState(0);
@@ -52,14 +69,14 @@ const Home: React.FC = () => {
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
 
-  // Fetch data when tab or page changes
+  // Fetch data when username, tab, or page changes
   useEffect(() => {
     if (username) {
       fetchData(username, page + 1, ROWS_PER_PAGE);
     }
-  }, [tab, page]);
+  }, [username, tab, page, fetchData]);
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>): void => {
     e.preventDefault();
     setPage(0);
     fetchData(username, 1, ROWS_PER_PAGE);
@@ -69,57 +86,53 @@ const Home: React.FC = () => {
     setPage(newPage);
   };
 
-  const formatDate = (dateString: string) =>
+  const formatDate = (dateString: string): string =>
     new Date(dateString).toLocaleDateString();
 
-  const filterData = (data: GitHubItem[], type: string): GitHubItem[] => {
+  const filterData = (data: GitHubItem[], filterType: string): GitHubItem[] => {
     let filtered = [...data];
-
-    if (type === "open" || type === "closed" || type === "merged") {
+    if (["open", "closed", "merged"].includes(filterType)) {
       filtered = filtered.filter((item) =>
-        type === "merged"
-          ? item.pull_request?.merged_at
-          : item.state === type
+        filterType === "merged"
+          ? !!item.pull_request?.merged_at
+          : item.state === filterType
       );
     }
-
     if (searchTitle) {
       filtered = filtered.filter((item) =>
         item.title.toLowerCase().includes(searchTitle.toLowerCase())
       );
     }
-
     if (selectedRepo) {
       filtered = filtered.filter((item) =>
         item.repository_url.includes(selectedRepo)
       );
     }
-
     if (startDate) {
       filtered = filtered.filter(
         (item) => new Date(item.created_at) >= new Date(startDate)
       );
     }
-
     if (endDate) {
       filtered = filtered.filter(
         (item) => new Date(item.created_at) <= new Date(endDate)
       );
     }
-
     return filtered;
   };
 
+  // Current data and filtered data according to tab and filters
   const currentRawData = tab === 0 ? issues : prs;
-  const currentFilteredData = filterData(currentRawData, tab === 0 ? issueFilter : prFilter);
+  const currentFilteredData = filterData(
+    currentRawData,
+    tab === 0 ? issueFilter : prFilter
+  );
   const totalCount = tab === 0 ? totalIssues : totalPrs;
 
   return (
-    <Container maxWidth="lg" sx={{ mt: 4, minHeight: "80vh" }}>
-
+    <Container maxWidth="lg" sx={{ mt: 4, minHeight: "80vh", color: theme.palette.text.primary }}>
       {/* Auth Form */}
-      <Paper elevation={1} sx={{ p: 2, mb: 4 }}>
-
+      <Paper elevation={1} sx={{ p: 2, mb: 4, backgroundColor: theme.palette.background.paper }}>
         <form onSubmit={handleSubmit}>
           <Box sx={{ display: "flex", gap: 2, flexWrap: "wrap" }}>
             <TextField
@@ -127,7 +140,7 @@ const Home: React.FC = () => {
               value={username}
               onChange={(e) => setUsername(e.target.value)}
               required
-              sx={{ flex: 1 }}
+              sx={{ flex: 1, minWidth: 150 }}
             />
             <TextField
               label="Personal Access Token"
@@ -135,36 +148,88 @@ const Home: React.FC = () => {
               onChange={(e) => setToken(e.target.value)}
               type="password"
               required
-              sx={{ flex: 1 }}
+              sx={{ flex: 1, minWidth: 150 }}
             />
-            <Button type="submit" variant="contained" sx={{ minWidth: 120, borderRadius: 2 }}>
+            <Button type="submit" variant="contained" sx={{ minWidth: "120px" }}>
               Fetch Data
             </Button>
           </Box>
         </form>
-        
       </Paper>
 
       {/* Filters */}
-      <Box sx={{ display: "flex", flexWrap: "wrap", gap: 2, mb: 2 }}>
-        <TextField label="Search Title" value={searchTitle} onChange={(e) => setSearchTitle(e.target.value)} />
-        <TextField label="Repository" value={selectedRepo} onChange={(e) => setSelectedRepo(e.target.value)} />
-        <TextField label="Start Date" type="date" value={startDate} onChange={(e) => setStartDate(e.target.value)} InputLabelProps={{ shrink: true }} />
-        <TextField label="End Date" type="date" value={endDate} onChange={(e) => setEndDate(e.target.value)} InputLabelProps={{ shrink: true }} />
+      <Box sx={{ mb: 2, display: "flex", flexWrap: "wrap", gap: 2 }}>
+        <TextField
+          label="Search Title"
+          value={searchTitle}
+          onChange={(e) => setSearchTitle(e.target.value)}
+          sx={{ minWidth: 200 }}
+        />
+        <TextField
+          label="Repository"
+          value={selectedRepo}
+          onChange={(e) => setSelectedRepo(e.target.value)}
+          sx={{ minWidth: 200 }}
+        />
+        <TextField
+          label="Start Date"
+          type="date"
+          value={startDate}
+          onChange={(e) => setStartDate(e.target.value)}
+          InputLabelProps={{ shrink: true }}
+          sx={{ minWidth: 150 }}
+        />
+        <TextField
+          label="End Date"
+          type="date"
+          value={endDate}
+          onChange={(e) => setEndDate(e.target.value)}
+          InputLabelProps={{ shrink: true }}
+          sx={{ minWidth: 150 }}
+        />
       </Box>
 
       {/* Tabs + State Filter */}
-      <Box sx={{ display: "flex", alignItems: "center", justifyContent: "space-between", mb: 3, flexWrap: "wrap", gap: 2 }}>
-        <Tabs value={tab} onChange={(_, v) => { setTab(v); setPage(0); }}>
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+          mb: 3,
+          flexWrap: "wrap",
+          gap: 2,
+        }}
+      >
+        <Tabs
+          value={tab}
+          onChange={(_, v) => {
+            setTab(v);
+            setPage(0);
+          }}
+          sx={{ flex: 1 }}
+        >
           <Tab label={`Issues (${totalIssues})`} />
           <Tab label={`Pull Requests (${totalPrs})`} />
         </Tabs>
         <FormControl sx={{ minWidth: 150 }}>
-          <InputLabel>State</InputLabel>
+          <InputLabel sx={{ fontSize: "14px" }}>State</InputLabel>
           <Select
             value={tab === 0 ? issueFilter : prFilter}
-            onChange={(e) => tab === 0 ? setIssueFilter(e.target.value) : setPrFilter(e.target.value)}
+            onChange={(e) =>
+              tab === 0
+                ? setIssueFilter(e.target.value)
+                : setPrFilter(e.target.value)
+            }
             label="State"
+            sx={{
+              backgroundColor: theme.palette.background.paper,
+              color: theme.palette.text.primary,
+              borderRadius: "4px",
+              "& .MuiSelect-select": { padding: "10px" },
+              "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
+                borderColor: theme.palette.primary.main,
+              },
+            }}
           >
             <MenuItem value="all">All</MenuItem>
             <MenuItem value="open">Open</MenuItem>
@@ -175,7 +240,7 @@ const Home: React.FC = () => {
       </Box>
 
       {(authError || dataError) && (
-        <Alert severity="error" sx={{ mb: 2 }}>
+        <Alert severity="error" sx={{ mb: 3 }}>
           {authError || dataError}
         </Alert>
       )}
@@ -185,7 +250,7 @@ const Home: React.FC = () => {
           <CircularProgress />
         </Box>
       ) : (
-        <Box>
+        <Box sx={{ maxHeight: "400px", overflowY: "auto" }}>
           <TableContainer component={Paper}>
             <Table size="small">
               <TableHead>
@@ -200,7 +265,13 @@ const Home: React.FC = () => {
                 {currentFilteredData.map((item) => (
                   <TableRow key={item.id}>
                     <TableCell>
-                      <Link href={item.html_url} target="_blank" rel="noopener noreferrer">
+                      <Link
+                        href={item.html_url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        underline="hover"
+                        sx={{ color: theme.palette.primary.main }}
+                      >
                         {item.title}
                       </Link>
                     </TableCell>

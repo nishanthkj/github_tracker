@@ -2,7 +2,14 @@ const About = () => {
   return (
     <div className="about-container">
       {/* Hero Section */}
-      <section className="hero bg-gray-800 text-white py-12 px-4">
+      <section
+        className="
+          hero
+          bg-white text-black
+          dark:bg-gray-800 dark:text-white
+          py-12 px-4
+        "
+      >
         <h1 className="text-4xl font-bold text-center">About Us</h1>
         <p className="text-lg text-center mt-4">
           Welcome to GitHub Tracker! We simplify issue tracking for developers.
@@ -10,7 +17,7 @@ const About = () => {
       </section>
 
       {/* Mission Section */}
-      <section className="mission py-12 px-4">
+      <section className="mission py-12 px-4 bg-white dark:bg-gray-800 dark:text-white">
         <h2 className="text-3xl font-semibold text-center">Our Mission</h2>
         <p className="text-lg text-center mt-4 max-w-3xl mx-auto">
           We aim to provide an efficient and user-friendly way to track GitHub issues and pull requests.
@@ -19,7 +26,7 @@ const About = () => {
       </section>
 
       {/* Features Section */}
-      <section className="features bg-gray-100 py-12 px-4">
+      <section className="features bg-white dark:bg-gray-800 dark:text-white py-12 px-4">
         <h2 className="text-3xl font-semibold text-center">What We Do</h2>
 
         <div className="flex flex-col md:flex-row md:justify-around gap-8 mt-8">
