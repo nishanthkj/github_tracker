@@ -10,7 +10,11 @@ interface ThemeContextType {
 export const ThemeContext = createContext<ThemeContextType | null>(null);
 
 const ThemeWrapper = ({ children }: { children: ReactNode }) => {
-  const [mode, setMode] = useState<'light' | 'dark'>('light');
+  const [mode, setMode] = useState<'light' | 'dark'>(() => {
+  const savedMode = localStorage.getItem('theme');
+  return savedMode === 'dark' ? 'dark' : 'light';
+});
+
 
   useEffect(() => {
     if (mode === 'dark') {
@@ -18,6 +22,7 @@ const ThemeWrapper = ({ children }: { children: ReactNode }) => {
     } else {
       document.documentElement.classList.remove('dark');
     }
+    localStorage.setItem('theme', mode);
   }, [mode]);
 
   const toggleTheme = () => {
