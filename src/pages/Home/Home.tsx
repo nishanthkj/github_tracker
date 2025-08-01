@@ -25,6 +25,8 @@ import {
 import { useTheme } from "@mui/material/styles";
 import { useGitHubAuth } from "../../hooks/useGitHubAuth";
 import { useGitHubData } from "../../hooks/useGitHubData";
+
+
 // Helper to extract PR type from title
 function getPRType(title: string): string {
   const lower = title.toLowerCase();
@@ -283,23 +285,24 @@ const Home: React.FC = () => {
         </Box>
       ) : (
         <Box sx={{ maxHeight: "400px", overflowY: "auto" }}>
+
           <TableContainer component={Paper}>
+
             <Table size="small">
+
               <TableHead>
                 <TableRow>
                   <TableCell>Title</TableCell>
                   <TableCell align="center">Repository</TableCell>
                   <TableCell align="center">State</TableCell>
-                  <TableCell>Type</TableCell>
                   <TableCell>Created</TableCell>
-                  {tab === 1 && <TableCell align="center">Merged</TableCell>}
-                  {tab === 1 && <TableCell>Merged Date</TableCell>}
                 </TableRow>
               </TableHead>
 
               <TableBody>
                 {currentFilteredData.map((item) => (
                   <TableRow key={item.id}>
+
                     <TableCell>
                       <Link
                         href={item.html_url}
@@ -311,39 +314,23 @@ const Home: React.FC = () => {
                         {item.title}
                       </Link>
                     </TableCell>
+
                     <TableCell align="center">
                       {item.repository_url.split("/").slice(-1)[0]}
                     </TableCell>
+
                     <TableCell align="center">
                       {item.pull_request?.merged_at ? "merged" : item.state}
                     </TableCell>
 
-                    {/* 🆕 PR Type Label */}
-                    <TableCell>
-                      <span className={`px-2 py-1 rounded-full text-xs font-semibold ${getBadgeStyle(getPRType(item.title))}`}>
-                        {getPRType(item.title)}
-                      </span>
-                    </TableCell>
-
                     <TableCell>{formatDate(item.created_at)}</TableCell>
-
-                    {tab === 1 && (
-                      <TableCell align="center">
-                        {item.pull_request?.merged_at ? "Yes" : "No"}
-                      </TableCell>
-                    )}
-                    {tab === 1 && (
-                      <TableCell>
-                        {item.pull_request?.merged_at
-                          ? formatDate(item.pull_request.merged_at)
-                          : "-"}
-                      </TableCell>
-                    )}
+                    
                   </TableRow>
                 ))}
               </TableBody>
 
             </Table>
+
             <TablePagination
               component="div"
               count={totalCount}
@@ -352,6 +339,7 @@ const Home: React.FC = () => {
               rowsPerPage={ROWS_PER_PAGE}
               rowsPerPageOptions={[ROWS_PER_PAGE]}
             />
+
           </TableContainer>
         </Box>
       )}
