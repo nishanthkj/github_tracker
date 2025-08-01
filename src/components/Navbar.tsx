@@ -91,7 +91,7 @@ const Navbar: React.FC = () => {
         <div className="md:hidden bg-white dark:bg-gray-800 text-black dark:text-white">
           <div className="space-y-4 px-6 py-4">
             <Link
-              to="/home"
+              to="/"
               className="block text-lg font-medium hover:text-gray-300 transition-all px-2 py-1 border border-transparent hover:border-gray-400 rounded"
               onClick={() => setIsOpen(false)}
             >
