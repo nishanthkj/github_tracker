@@ -26,36 +26,6 @@ import { useTheme } from "@mui/material/styles";
 import { useGitHubAuth } from "../../hooks/useGitHubAuth";
 import { useGitHubData } from "../../hooks/useGitHubData";
 
-
-// Helper to extract PR type from title
-function getPRType(title: string): string {
-  const lower = title.toLowerCase();
-  if (lower.includes("feature")) return "Feature";
-  if (lower.includes("fix")) return "Fix";
-  if (lower.includes("cleanup") || lower.includes("refactor")) return "Cleanup";
-  if (lower.includes("docs")) return "Docs";
-  if (lower.includes("test")) return "Test";
-  return "Other";
-}
-
-// Tailwind class based on PR type
-function getBadgeStyle(type: string): string {
-  switch (type) {
-    case "Feature":
-      return "bg-green-100 text-green-800";
-    case "Fix":
-      return "bg-red-100 text-red-800";
-    case "Cleanup":
-      return "bg-yellow-100 text-yellow-800";
-    case "Docs":
-      return "bg-blue-100 text-blue-800";
-    case "Test":
-      return "bg-purple-100 text-purple-800";
-    default:
-      return "bg-gray-100 text-gray-800";
-  }
-}
-
 const ROWS_PER_PAGE = 10;
 
 interface GitHubItem {
@@ -324,7 +294,7 @@ const Home: React.FC = () => {
                     </TableCell>
 
                     <TableCell>{formatDate(item.created_at)}</TableCell>
-                    
+
                   </TableRow>
                 ))}
               </TableBody>
