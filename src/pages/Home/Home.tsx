@@ -1,4 +1,11 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react"
+import {
+  IssueOpenedIcon,
+  IssueClosedIcon,
+  GitPullRequestIcon,
+  GitPullRequestClosedIcon,
+  GitMergeIcon,
+} from '@primer/octicons-react';
 import {
   Container,
   Box,
@@ -50,8 +57,6 @@ const Home: React.FC = () => {
     error: authError,
     getOctokit,
   } = useGitHubAuth();
-
-  //const octokit = getOctokit();
 
   const {
     issues,
@@ -125,12 +130,29 @@ const Home: React.FC = () => {
     return filtered;
   };
 
+  const getStatusIcon = (item: GitHubItem) => {
+
+    if (item.pull_request) {
+
+        if (item.pull_request.merged_at)
+            return <GitMergeIcon size={16} className="icon-merged" />;
+
+        if (item.state === 'closed')
+            return <GitPullRequestClosedIcon size={16} className="icon-pr-closed" />;
+
+        return <GitPullRequestIcon size={16} className="icon-pr-open" />;
+    }
+
+    if (item.state === 'closed')
+        return <IssueClosedIcon size={16} className="icon-issue-closed" />;
+
+    return <IssueOpenedIcon size={16} className="icon-issue-open" />;
+  };
+
+
   // Current data and filtered data according to tab and filters
   const currentRawData = tab === 0 ? issues : prs;
-  const currentFilteredData = filterData(
-    currentRawData,
-    tab === 0 ? issueFilter : prFilter
-  );
+  const currentFilteredData = filterData(currentRawData, tab === 0 ? issueFilter : prFilter);
   const totalCount = tab === 0 ? totalIssues : totalPrs;
 
   return (
@@ -273,17 +295,19 @@ const Home: React.FC = () => {
                 {currentFilteredData.map((item) => (
                   <TableRow key={item.id}>
 
-                    <TableCell>
-                      <Link
-                        href={item.html_url}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        underline="hover"
-                        sx={{ color: theme.palette.primary.main }}
-                      >
-                        {item.title}
-                      </Link>
+                    <TableCell sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                        {getStatusIcon(item)}
+                        <Link
+                            href={item.html_url}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            underline="hover"
+                            sx={{ color: theme.palette.primary.main }}
+                        >
+                            {item.title}
+                        </Link>
                     </TableCell>
+
 
                     <TableCell align="center">
                       {item.repository_url.split("/").slice(-1)[0]}
