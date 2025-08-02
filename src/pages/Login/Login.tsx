@@ -143,9 +143,12 @@ const Login: React.FC = () => {
           <div className="text-center mt-8 pb-8">
             <p className={`${mode === "dark" ? "text-slate-500" : "text-gray-600"} text-sm`}>
               Don't have an account?
-              <a href="/signup" className="ml-1 text-purple-400 hover:text-purple-300 transition-colors duration-300">
+              <Link
+                to="/signup"
+                className="ml-1 text-purple-400 hover:text-purple-300 transition-colors duration-300"
+              >
                 Sign up here
-              </a>
+              </Link>
             </p>
           </div>
         </div>
