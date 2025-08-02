@@ -2,8 +2,8 @@ import { FaGithub } from 'react-icons/fa';
 
 function Footer() {
   return (
-    <footer className="py-4 shadow-lg bg-gray-100 dark:bg-gray-800 dark:text-white">
-      <div className="container mx-auto text-center px-4">
+    <footer className="py-6 shadow-lg bg-gray-100 dark:bg-gray-800 dark:text-white w-full">
+      <div className="w-full text-center px-4">
         <p className="text-sm md:text-base font-medium flex flex-col sm:flex-row justify-center items-center gap-2 sm:gap-4">
           <span>
             Made with ❤️ by{" "}
