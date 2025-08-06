@@ -147,12 +147,9 @@ const navigate = useNavigate();
             <p className="text-purple-200">
               Already have an account?{' '}
               <Link to="/login" className="inline-flex items-center">
-              <button
-                onClick={() => console.log('Navigate to login')}
-                className="text-purple-300 hover:text-white font-medium transition-colors duration-300"
-              >
-                Sign in here
-              </button>
+                <button className="text-purple-300 hover:text-white font-medium transition-colors duration-300">
+                  Sign in here
+                </button>
               </Link>
             </p>
           </div>
