@@ -101,11 +101,18 @@ const Home: React.FC = () => {
   const filterData = (data: GitHubItem[], filterType: string): GitHubItem[] => {
     let filtered = [...data];
     if (["open", "closed", "merged"].includes(filterType)) {
-      filtered = filtered.filter((item) =>
-        filterType === "merged"
-          ? !!item.pull_request?.merged_at
-          : item.state === filterType
-      );
+      filtered = filtered.filter((item) => {
+        if (filterType === "merged") {
+          return !!item.pull_request?.merged_at
+        }
+        else if (filterType === "closed") {
+          return item.state === "closed" && !item.pull_request?.merged_at
+        }
+        else {
+          //open
+          return item.state === "open"
+        }
+      });
     }
     if (searchTitle) {
       filtered = filtered.filter((item) =>
