@@ -41,7 +41,11 @@ const Navbar: React.FC = () => {
 
   const handleLogout = () => {
     localStorage.removeItem("token");
+    localStorage.removeItem("user");
     setIsAuthed(false);
+    setUser(null);
+    // notify same-tab listeners
+    window.dispatchEvent(new Event("authChange"));
     navigate("/login");
   };
 
