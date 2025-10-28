@@ -79,12 +79,18 @@ router.get("/profile", requireAuth, async (req, res) => {
 router.put("/profile", requireAuth, async (req, res) => {
     try {
         const updates = {};
-        const { username, email, bio, avatar } = req.body;
+        const { username, email, bio, avatar, newPassword } = req.body;
 
         if (username !== undefined) updates.username = username;
         if (email !== undefined) updates.email = email;
         if (bio !== undefined) updates.bio = bio;
         if (avatar !== undefined) updates.avatar = avatar;
+
+        // Handle password update if newPassword is provided
+        if (newPassword !== undefined && newPassword.trim().length > 0) {
+            // Password will be hashed by the User model's pre-save hook
+            updates.password = newPassword;
+        }
 
         const user = await User.findByIdAndUpdate(req.userId, updates, {
             new: true,
